@@ -1,4 +1,8 @@
-
+<?php 
+$stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC");
+$stmt->execute();
+$adResult = $stmt->fetchAll();   
+?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -42,11 +46,26 @@
           <i class="fas fa-search"></i>
         </a>
 
-
+        <?php 
+          $link = $_SERVER['PHP_SELF'];
+          $link_array = explode('/',$link);
+          $page = end($link_array);
+        ?>
 
         <div class="navbar-search-block">
-          <form class="form-inline" method="post" action="" >
-          <input name="_token" type="hidden" value="">
+          <form class="form-inline" method="post"  
+          
+          <?php if($page == 'index.php') :?>
+               action='index.php' 
+            <?php elseif($page == 'category.php') : ?>
+              action='category.php' 
+            <?php elseif($page == 'user_list.php') : ?>
+              action='user_list.php'
+            <?php endif ?>
+          
+        
+          >
+          <input name="_token" type="hidden" value="<?= $_SESSION['_token'] ?>">
             <div class="input-group input-group-sm">
               <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="search">
               <div class="input-group-append">
@@ -79,7 +98,10 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-     
+        <!-- <img src="../profile_image/<?= $adResult[0]['image'] ?>" class="img-circle elevation-2" alt="User Image"> -->
+        </div>
+        <div class="info">
+          <a href="#" class="d-block"><?= $adResult[0]['name'] ?></a>
           
 
         </div>

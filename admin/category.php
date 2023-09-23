@@ -66,7 +66,7 @@ $result = $stmt->fetchAll();
         <div class="row mb-2">
           <div class="col-sm-12 ">
             <h1 class="mb-3 float-right mr-3">Category Lists</h1>
-            <a href="add.php" class="btn btn-outline-success ">New Blogs Post &nbsp; <i class="fa-solid fa-file-circle-plus"></i></a> 
+            <a href="cat_add.php" class="btn btn-outline-success ">Add New Category &nbsp; <i class="fa-solid fa-file-circle-plus"></i></a> 
 
           </div>
           
@@ -103,9 +103,8 @@ $result = $stmt->fetchAll();
 
                     <tr>
                       <th style="width: 5%">#</th>
-                      <th style="width: 20%">Title</th>
-                      <th style="width: 30%">Content</th>
-                      <th style="width: 20%">Comments</th>
+                      <th style="width: 30%">Name</th>
+                      <th style="width: 40%">Description</th>
                       <th style="width: 25%">Action</th>
                     </tr>
                   </thead>
@@ -118,10 +117,9 @@ $result = $stmt->fetchAll();
                             <td><?= $i; ?></td>
                             <td><?= escape(substr($value['name'],0,11)) ?>..</td>
                             <td><?= escape(substr($value['description'],0,30)) ?>...</td>
-                            <td> </td>   
                             <td>
-                              <a href="edit.php?id=<?= $value['id'] ?>" type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square "></i> Edit</a>
-                              <a href="delete.php?id=<?= $value['id'] ?>" type="button" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this blog!')">
+                              <a href="cat_edit.php?id=<?= $value['id'] ?>" type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square "></i> Edit</a>
+                              <a href="cat_delete.php?id=<?= $value['id'] ?>" type="button" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this blog!')">
                               <i class="fa-solid fa-trash"></i>  Delete</a>
                             </td>
                           </tr>  
