@@ -23,33 +23,19 @@ if(!empty($_GET['pageno'])) {
 $numOfrecs = 5 ;
 $offset = ($pageno - 1) * $numOfrecs;
   
-if (empty($_POST['search'])){
-$stmt = $pdo->prepare("SELECT * FROM categories ORDER BY id DESC");
+
+
+$stmt = $pdo->prepare("SELECT * FROM sale_order_detail WHERE sale_order_id=".$_GET['id']);
 $stmt->execute();
 $rawResult = $stmt->fetchAll();            
        
 $total_pages = ceil(count($rawResult) / $numOfrecs);
 
-$stmt = $pdo->prepare("SELECT * FROM categories ORDER BY id DESC LIMIT $offset,$numOfrecs ");
+$stmt = $pdo->prepare("SELECT * FROM sale_order_detail WHERE sale_order_id=".$_GET['id']." LIMIT $offset,$numOfrecs");
 $stmt->execute();
 $result = $stmt->fetchAll();
 
-}else {
 
-$searchKey = $_POST['search'];
-
-$stmt = $pdo->prepare("SELECT * FROM categories WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
-
-$stmt->execute();
-$rawResult = $stmt->fetchAll();            
-       
-$total_pages = ceil(count($rawResult) / $numOfrecs);
-
-$stmt = $pdo->prepare("SELECT * FROM categories WHERE name LIKE '%$searchKey%' ORDER BY id DESC LIMIT $offset,$numOfrecs ");
-$stmt->execute();
-$result = $stmt->fetchAll();
-
-}
 
 ?>
 
@@ -64,12 +50,10 @@ $result = $stmt->fetchAll();
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-        <div class="col-sm-12 mt-3 mb-3">
-       <h1 class="mb-3 text-bold d-flex justify-content-center align-items-center btn btn-info " >Category List &nbsp;<i class="fa-solid fas fa-clipboard-list"></i></h1>
-       </div>
           <div class="col-sm-12 ">
-            <h1 class="mb-3 float-right mr-3">Category Lists</h1>
-            <a href="cat_add.php" class="btn btn-outline-success ">Add New Category &nbsp; <i class="fa-solid fa-file-circle-plus"></i></a> 
+            <h1 class="mb-3 float-right mr-3">Order Detail Lists</h1>
+            <a href="order_list.php" class="btn btn-success "><i class="right fas fa-angle-left"></i>&nbsp;&nbsp;&nbsp; Back </a> 
+
           </div>
           
         
@@ -104,10 +88,12 @@ $result = $stmt->fetchAll();
                   <thead>
 
                     <tr>
+
                       <th class="text-center" style="width: 5%">#</th>
-                      <th class="text-center" style="width: 30%">Name</th>
-                      <th class="text-center" style="width: 40%">Description</th>
-                      <th class="text-center" style="width: 25%">Action</th>
+                      <th class="text-center" style="width: 30%">Product</th>
+                      <th class="text-center" style="width: 30%">Quantity</th>
+                      <th class="text-center" style="width: 35%">Order Date</th>
+                      
                     </tr>
                   </thead>
                   <tbody>
@@ -115,20 +101,24 @@ $result = $stmt->fetchAll();
                       <?php $i = 1; ?>
                       <?php foreach ($result as  $value) : ?>
 
+                        <?php
+                            $stmtPro = $pdo->prepare("SELECT * FROM products WHERE id = ".$value['product_id']);
+                            $stmtPro->execute();
+                            $resultPro = $stmtPro->fetchAll();
+                          
+                            ?>
                           <tr>
+
                             <td class="text-center"><?= $i; ?></td>
-                            <td class="text-center"><?= escape($value['name']) ?></td>
-                            <td class="text-center"><?= escape($value['description']) ?></td>
-                            <td class="text-center">
-                              <a href="cat_edit.php?id=<?= $value['id'] ?>" type="button" class="btn btn-outline-warning btn-sm btn-group"><i class="fa-solid fa-pen-to-square "></i></a>
-                              <a href="cat_delete.php?id=<?= $value['id'] ?>" type="button" class="btn btn-outline-danger btn-sm btn-group" onclick="return confirm('Are you sure you want to delete this blog!')">
-                              <i class="fa-solid fa-trash"></i></a>
-                            </td>
+                            <td class="text-center"><?= escape(($resultPro[0]['name'])) ?></td>
+                            <td class="text-center"><?= escape($value['quantity']) ?></td>
+                            <td class="text-center"><?= escape(date('Y-m-d',strtotime($value['order_date']))) ?></td>
+                            
                           </tr>  
 
                         <?php $i++; ?>
                         <?php endforeach ?>
-                      <?php endif ?>
+                    <?php endif ?>
                   </tbody>
                 </table>
               </div>

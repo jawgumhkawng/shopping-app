@@ -155,12 +155,20 @@ $result = $stmt->fetchAll();
                                             <input type="text" class="form-control" name="address" id="exampleFormControlInput1" value="<?= escape($result[0]['address']) ?>" placeholder="address..." >
                                         </div>
                                         <div class="mb-3">
-                                            <label for="exampleFormControlTextarea1" class="form-label">Set Admin</label>
-                                            <input type="checkbox" class="check-input" name="role" id="exampleFormControlInput1" value="1" placeholder="admin or user" checked>
+                                        <label for="exampleFormControlTextarea1" class="form-label">Set Admin or User</label><br>
+                                            <?php if(escape($result[0]['role']) == 1)  : ?>
+                                              
+                                              <input type="checkbox" class="" name="role" id="exampleFormControlInput1" value="1" placeholder="admin or user" checked>
+                                              <span class="text-success">He is admin</p>
+                                              <?php else : ?>
+                                                
+                                                <input type="checkbox" class="" name="role" id="exampleFormControlInput1" value="1" placeholder="admin or user" >
+                                                <span class="text-primary">He is user</p>
+                                            <?php endif ?>
                                          </div>
                              
                                         <div class="mb-2">
-                                         <a href="users_list.php" class="btn btn-outline-secondary  mr-3 "><i class="fa-solid fa-backward">&nbsp;&nbsp;</i>BACK </a>            
+                                         <a href="user_list.php" class="btn btn-outline-secondary  mr-3 "><i class="fa-solid fa-backward">&nbsp;&nbsp;</i>BACK </a>            
                                         <input type="submit" class="btn btn-success" value="SUBMIT">
                                                                                
                                         </div>

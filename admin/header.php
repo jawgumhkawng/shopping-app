@@ -38,20 +38,19 @@ $adResult = $stmt->fetchAll();
       </li>
     </ul>
 
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-
-        <?php 
+    <?php 
           $link = $_SERVER['PHP_SELF'];
           $link_array = explode('/',$link);
           $page = end($link_array);
         ?>
-
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+     <?php if($page != 'order_list.php') : ?>
+      <li class="nav-item">
+        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+          <i class="fas fa-search"></i>
+        </a>
         <div class="navbar-search-block">
           <form class="form-inline" method="post"  
           
@@ -62,8 +61,6 @@ $adResult = $stmt->fetchAll();
             <?php elseif($page == 'user_list.php') : ?>
               action='user_list.php'
             <?php endif ?>
-          
-        
           >
           <input name="_token" type="hidden" value="<?= $_SESSION['_token'] ?>">
             <div class="input-group input-group-sm">
@@ -80,6 +77,8 @@ $adResult = $stmt->fetchAll();
           </form>
         </div>
       </li>
+      
+        <?php endif ?>
     </ul>
   </nav>
 
@@ -142,6 +141,14 @@ $adResult = $stmt->fetchAll();
                 <a href="user_list.php" class="nav-link ">
                   <i class="nav-icon fas fa-user"></i>
                   <p>Users
+                    <i class="right fas fa-angle-right"></i>
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item list " >
+                <a href="order_list.php" class="nav-link ">
+                  <i class="nav-icon fas fa-table"></i>
+                  <p>Orders
                     <i class="right fas fa-angle-right"></i>
                   </p>
                 </a>

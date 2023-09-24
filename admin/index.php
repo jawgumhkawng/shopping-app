@@ -68,14 +68,15 @@ $result = $stmt->fetchAll();
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
+        <div class="col-sm-12 mt-3 mb-3">
+           <h1 class="mb-3 text-bold d-flex justify-content-center align-items-center btn btn-info " >Product List &nbsp;<i class="fa-solid fas fa-th"></i></h1>
+           </div>
           <div class="col-sm-12 ">
             <h1 class="mb-3 float-right mr-3">Product Lists</h1>
-            <a href="add.php" class="btn btn-outline-success ">New Blogs Post &nbsp; <i class="fa-solid fa-file-circle-plus"></i></a> 
+            <a href="product_add.php" class="btn btn-outline-success ">New Blogs Post &nbsp; <i class="fa-solid fa-file-circle-plus"></i></a> 
 
           </div>
-          
-        
-          
+ 
           <div class="col-md-12 col-lg-12 col-12 ">
             <div class="card">
               <div class="card-header">
@@ -105,27 +106,41 @@ $result = $stmt->fetchAll();
                   <thead>
 
                     <tr>
-                      <th style="width: 5%">#</th>
-                      <th style="width: 20%">Title</th>
-                      <th style="width: 30%">Content</th>
-                      <th style="width: 20%">Comments</th>
-                      <th style="width: 25%">Action</th>
+                      <th class="text-center" style="width: 5%">#</th>
+                      <th class="text-center" style="width: 10%">Image</th>
+                      <th class="text-center" style="width: 15%">Name</th>
+                      <th class="text-center" style="width: 20%">Description</th>
+                      <th class="text-center" style="width: 10%">Category</th>
+                      <th class="text-center" style="width: 15%">In Stock</th>
+                      <th class="text-center" style="width: 12%">Price</th>
+                      <th class="text-center" style="width: 14%">Action</th>
                     </tr>
                   </thead>
+                  
                   <tbody>
                     <?php if ($result) : ?>
                       <?php $i = 1; ?>
                       <?php foreach ($result as  $value) : ?>
-
+                          <?php
+                            $stmtCat = $pdo->prepare("SELECT * FROM categories WHERE id = ".$value['category_id']);
+                            $stmtCat->execute();
+                            $resultCat = $stmtCat->fetchAll();
+                          
+                            ?>
+                           
+                           
                           <tr>
                             <td><?= $i; ?></td>
-                            <td><?= escape(substr($value['name'],0,11)) ?>..</td>
-                            <td><?= escape(substr($value['price'],0,30)) ?>...</td>
-                            <td> <?= escape($value['quantity'])?></td>   
+                            <td class="text-center"><img src="./images/<?= escape($value['image']) ?>" width="30"  height="30" style="border:10px !important;" class="rounded-circle shadow"></td>
+                            <td class="text-center"><?= escape(substr($value['name'],0,11)) ?></td>
+                            <td class="text-center"><?= escape(substr($value['description'],0,30)) ?>...</td>
+                            <td class="text-center"> <?= escape($resultCat[0]['name'])?></td>   
+                            <td class="text-center"> <?= escape($value['quantity'])?></td>   
+                            <td class="text-center"> <?= escape($value['price'])?></td>   
                             <td>
-                              <a href="edit.php?id=<?= $value['id'] ?>" type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square "></i> Edit</a>
-                              <a href="delete.php?id=<?= $value['id'] ?>" type="button" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this blog!')">
-                              <i class="fa-solid fa-trash"></i>  Delete</a>
+                              <a href="product_edit.php?id=<?= $value['id'] ?>" type="button" class="btn btn-outline-warning btn-sm btn-group ml-2"><i class="fa-solid fa-pen-to-square "></i></a>
+                              <a href="product_delete.php?id=<?= $value['id'] ?>" type="button" class="btn btn-outline-danger btn-sm btn-group" onclick="return confirm('Are you sure you want to delete this blog!')">
+                              <i class="fa-solid fa-trash"></i></a>
                             </td>
                           </tr>  
 

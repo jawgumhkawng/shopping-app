@@ -107,7 +107,7 @@ if ($_SESSION['role'] != 1) {
                                 <li class="page-item  <?php if($pageno == $total_pages){ echo 'disabled';} ?>"><a class="page-link" href="?pageno=<?= $total_pages ?>" aria-label="Next">Last</a></li>
                               </ul>
                             </nav>
-                         </div>
+                            </div>
                         <div class="col-md-12 col-lg-12 col-12 ">
                             <div class="card">
                               

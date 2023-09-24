@@ -10,7 +10,7 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
 
 }
 
-$stmt = $pdo->prepare("DELETE FROM posts WHERE id=".$_GET['id']);
+$stmt = $pdo->prepare("DELETE FROM products WHERE id=".$_GET['id']);
 $stmt->execute();
 
 header("location: index.php");

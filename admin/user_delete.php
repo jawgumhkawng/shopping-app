@@ -13,6 +13,6 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
 $stmt = $pdo->prepare("DELETE FROM users WHERE id=".$_GET['id']);
 $stmt->execute();
 
-header("location: category.php");
+header("location: user_list.php");
 
 ?>
