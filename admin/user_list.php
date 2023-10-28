@@ -135,8 +135,8 @@ if ($_SESSION['role'] != 1) {
                                         <tr>
                                             <td><?= $i; ?></td>
                                             <td><img src="../profile_image/<?= $value['image'] ?>" width="30"  height="30" style="border:10px !important;" class="rounded-circle shadow"></td>
-                                            <td><?= escape($value['name']) ?></td>   
-                                            <td><?= escape($value['email']) ?></td>   
+                                            <td><?= escape(substr($value['name'],0,12)) ?></td>   
+                                            <td><?= escape(substr($value['email'],0,18)) ?></td>   
                                             <td><?= escape($value['address']) ?></td>   
                                             <td><?= escape($value['phone']) ?></td> 
                                             <?php if($value['role'] === 1) : ?>
