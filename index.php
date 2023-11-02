@@ -1,5 +1,67 @@
-
 <?php include('header.php') ?>
+<?php
+
+require 'config/config.php';
+
+
+if(!empty($_GET['pageno'])) {
+  $pageno = $_GET['pageno'];
+} else {
+  $pageno = 1;
+}
+
+$numOfrecs = 6 ;
+$offset = ($pageno - 1) * $numOfrecs;
+  
+if (empty($_POST['search'])){
+
+    if (!empty($_GET['category_id'])) {
+      $category_id = $_GET['category_id'];
+
+      $stmt = $pdo->prepare("SELECT * FROM products WHERE category_id = $category_id AND quantity > 0 ORDER BY id DESC");
+      $stmt->execute();
+      $rawResult = $stmt->fetchAll();            
+            
+      $total_pages = ceil(count($rawResult) / $numOfrecs);
+
+      $stmt = $pdo->prepare("SELECT * FROM products WHERE category_id = $category_id AND quantity > 0 ORDER BY id DESC LIMIT $offset,$numOfrecs ");
+      $stmt->execute();
+      $result = $stmt->fetchAll();
+
+    } else {
+
+      $stmt = $pdo->prepare("SELECT * FROM products WHERE quantity > 0 ORDER BY id DESC");
+      $stmt->execute();
+      $rawResult = $stmt->fetchAll();            
+            
+      $total_pages = ceil(count($rawResult) / $numOfrecs);
+
+      $stmt = $pdo->prepare("SELECT * FROM products WHERE quantity > 0 ORDER BY id DESC LIMIT $offset,$numOfrecs ");
+      $stmt->execute();
+      $result = $stmt->fetchAll();
+
+    }
+
+}else {
+
+$searchKey = $_POST['search'];
+
+$stmt = $pdo->prepare("SELECT * FROM products WHERE name LIKE '%$searchKey%' AND quantity > 0 ORDER BY id DESC");
+
+$stmt->execute();
+$rawResult = $stmt->fetchAll();            
+       
+$total_pages = ceil(count($rawResult) / $numOfrecs);
+
+$stmt = $pdo->prepare("SELECT * FROM products WHERE name LIKE '%$searchKey%' AND quantity > 0 ORDER BY id DESC LIMIT $offset,$numOfrecs ");
+$stmt->execute();
+$result = $stmt->fetchAll();
+
+}
+
+?>
+
+
 
 <section class="banner-area">
 <div class="container">
@@ -21,14 +83,14 @@ dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 </div>
 <div class="col-lg-7">
 <div class="banner-img">
-<img class="img-fluid" src="img/banner/banner-img.png" alt>
+<img class="img-fluid" src="img/product/e-p1.png" alt>
 </div>
 </div>
 </div>
 <div class="row single-slide">
 <div class="col-lg-5">
 <div class="banner-content">
-<h1>Nike New <br>Collection!</h1>
+<h1>New Jaw <br>Collection!</h1>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
 dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 <div class="add-bag d-flex align-items-center">
@@ -49,6 +111,138 @@ dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 </div>
 </div>
 </section>
+
+
+<div class="container">
+<div class="row">
+<?php 
+ $catstmt = $pdo->prepare("SELECT * FROM categories  ORDER BY id DESC");
+ $catstmt->execute();
+ $resultCat = $catstmt->fetchAll();
+
+
+ 
+?>
+  <div class="col-xl-9 col-lg-3 col-md-3 col-12">
+  <div class="sidebar-categories " >
+   <div class="head">Browse Categories</div>
+    <ul class="main-categories">
+    <li class="main-nav-list"><a data-toggle="collapse" href="#category" aria-expanded="false" aria-controls="category"><span class="lnr lnr-arrow-right"></span>category<span class="number">(53)</span></a>
+    <?php foreach( $resultCat as $key => $value ) :?>
+    <ul class="collapse" id="category"  aria-expanded="false" aria-controls="fruitsVegetable">
+     <li class="main-nav-list child"><a href="index.php?category_id=<?= $value['id'] ?>"><?= escape($value['name']) ?></a></li>
+    </ul>
+    <?php endforeach ?>
+    </li>
+
+    </ul>
+</div>
+  </div>
+<div class="col-xl-9 col-lg-9 col-md-9">
+<div class="filter-bar d-flex flex-wrap align-items-center">
+
+<?php
+   $cId = $value['id'];
+
+   $catstmt = $pdo->prepare("SELECT * FROM categories  WHERE id = $cId");
+   $catstmt->execute();
+   $resultC = $catstmt->fetchAll();
+  
+   $cName = $resultC[0]['name'];
+?>
+
+<?php if(!empty($_POST['search'])) : ?>
+  <div class="d-flex mr-auto"> 
+     <a class="text-center" style=" width:100px; background-color:white; padding:5px"><span > <?= escape($_POST['search']) ?></span></a>
+  </div>
+<?php elseif(!empty($_POST['category_id'])) : ?>
+   <div class="d-flex mr-auto"> 
+     <a class="text-center" style=" width:100px; background-color:white; padding:5px" ><span > <?= escape($_POST['category_id']) ?></span></a>
+   </div>
+  <?php else : ?>
+    <div class="d-flex mr-auto"> 
+     <a href="index.php" class="text-center" style=" width:100px; background-color:white; padding:5px" ><span>Products</span> </a>
+   </div>
+<?php endif ?>
+
+
+
+
+<div class="pagination ">
+
+    <a <?php if($pageno == 1){ echo 'disabled';} ?> 
+      href="?pageno=1" >First</a>
+      
+    <a <?php if($pageno <= 1){ echo 'disabled';} ?> 
+      href="<?php if($pageno <= 1) { echo '#';}else{ echo "?pageno=".($pageno-1);} ?>" class="prev-arrow">
+    <<</a>
+   
+   <a href="#" class="active"><?= $pageno; ?></a>
+
+   <a <?php if($pageno >= $total_pages){ echo 'disabled';} ?> 
+     href="<?php if($pageno >= $total_pages) { echo '#';}else{ echo "?pageno=".($pageno+1);} ?>" class="next-arrow">
+     >></a>
+
+   <a <?php if($pageno >= $total_pages){ echo 'disabled';} ?> 
+     href="?pageno=<?= $total_pages ?>" >Last</a>
+</div>
+</div>
+
+<br>
+
+<section class="lattest-product-area pb-40 category-list" >
+<div class="col-lg-12">
+<div class="row">
+<?php foreach ($result as $key => $value) :?>
+<div  class="col-lg-4 col-md-6">
+<div class="single-product">
+<a href="single-product.php?id=<?= $value['id'] ?>">
+<img class="img-fluid " src="./admin/images/<?= escape($value['image']) ?>" alt style=" height : 210px !important">
+
+<div class="product-details">
+ <h3 style="color: dark;" class="d-flex text-uppercase"><?= escape($value['name']) ?></h3>
+ <h6 style="color: orange;" class="text-muted">$<?= escape($value['price']) ?></h6>
+ </a>
+ <p style="cursor: pointer;" class=""><?= escape(substr($value['description'],0,23)) ?>...</p>
+ 
+<form action="add_to_card.php" method="post">
+<input name="_token" type="hidden" value="<?= $_SESSION['_token'] ; ?>">
+<input name="id" type="hidden" value="<?= escape($value['id']) ?>">
+<input name="qty" type="hidden" value="1">
+
+<div class="prd-bottom">
+  <div class="social-info">
+    <button class="social-info" type="submit" style="display: contents;">
+    <span class="ti-bag"></span><p class="hover-text" style="left: 19px;">add to bag</p>
+    </button>
+  </div>
+
+
+<a href="single-product.php?id=<?= $value['id'] ?>" class="social-info">
+<span class="lnr lnr-move"></span>
+<p class="hover-text" style="left: 33px;">view more</p>
+</a>
+</div>
+</form>
+</div>
+</div>
+</div>
+<?php endforeach ?>
+
+<?php if(!$result) :?>
+
+  
+<h2 class="text-uppercase " style="color: red; " >Results Not Found:(</h2>
+  
+<?php endif ?>
+</div>
+</div>
+</section>
+
+
+
+</div>
+</div>
 
 
 <section class="features-area section_gap">
@@ -98,205 +292,7 @@ dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 </div>
 </section>
 
-<div class="container">
-<div class="row">
-<div class="col-xl-3 col-lg-4 col-md-5">
-<div class="sidebar-categories">
-<div class="head">Browse Categories</div>
-<ul class="main-categories">
-<li class="main-nav-list"><a data-toggle="collapse" href="#fruitsVegetable" aria-expanded="false" aria-controls="fruitsVegetable"><span class="lnr lnr-arrow-right"></span>Fruits and Vegetables<span class="number">(53)</span></a>
-<ul class="collapse" id="fruitsVegetable" data-toggle="collapse" aria-expanded="false" aria-controls="fruitsVegetable">
-<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-</ul>
-</li>
-
-</ul>
-</div>
-
-</div>
-<div class="col-xl-9 col-lg-8 col-md-7">
-
-<div class="filter-bar d-flex flex-wrap align-items-center">
-<div class="sorting">
-
-</div>
-<div class="sorting mr-auto">
-<select>
-<option value="1">Show 12</option>
-<option value="1">Show 12</option>
-<option value="1">Show 12</option>
-</select>
-</div>
-<div class="pagination">
-<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-<a href="#" class="active">1</a>
-<a href="#">2</a>
-<a href="#">3</a>
-<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-<a href="#">6</a>
-<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-</div>
-</div>
-
-
-<section class="lattest-product-area pb-40 category-list">
-<div class="row">
-
-<div class="col-lg-4 col-md-6">
-<div class="single-product">
-<img class="img-fluid" src="img/product/p1.jpg" alt>
-<div class="product-details">
-<h6>addidas New Hammer sole
-for Sports person</h6>
-<div class="price">
-<h6>$150.00</h6>
-<h6 class="l-through">$210.00</h6>
-</div>
-<div class="prd-bottom">
-<a href class="social-info">
-<span class="ti-bag"></span>
-<p class="hover-text">add to bag</p>
-</a>
-<a href class="social-info">
-<span class="lnr lnr-move"></span>
-<p class="hover-text">view more</p>
-</a>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-lg-4 col-md-6">
-<div class="single-product">
-<img class="img-fluid" src="img/product/p2.jpg" alt>
-<div class="product-details">
-<h6>addidas New Hammer sole
-for Sports person</h6>
-<div class="price">
-<h6>$150.00</h6>
-<h6 class="l-through">$210.00</h6>
-</div>
-<div class="prd-bottom">
-<a href class="social-info">
-<span class="ti-bag"></span>
-<p class="hover-text">add to bag</p>
-</a>
-<a href class="social-info">
-<span class="lnr lnr-move"></span>
-<p class="hover-text">view more</p>
-</a>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-lg-4 col-md-6">
-<div class="single-product">
-<img class="img-fluid" src="img/product/p3.jpg" alt>
-<div class="product-details">
-<h6>addidas New Hammer sole
-for Sports person</h6>
-<div class="price">
-<h6>$150.00</h6>
-<h6 class="l-through">$210.00</h6>
-</div>
-<div class="prd-bottom">
-<a href class="social-info">
-<span class="ti-bag"></span>
-<p class="hover-text">add to bag</p>
-</a>
-<a href class="social-info">
-<span class="lnr lnr-move"></span>
-<p class="hover-text">view more</p>
-</a>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-lg-4 col-md-6">
-<div class="single-product">
-<img class="img-fluid" src="img/product/p4.jpg" alt>
-<div class="product-details">
-<h6>addidas New Hammer sole
-for Sports person</h6>
-<div class="price">
-<h6>$150.00</h6>
-<h6 class="l-through">$210.00</h6>
-</div>
-<div class="prd-bottom">
-<a href class="social-info">
-<span class="ti-bag"></span>
-<p class="hover-text">add to bag</p>
-</a>
-<a href class="social-info">
-<span class="lnr lnr-move"></span>
-<p class="hover-text">view more</p>
-</a>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-lg-4 col-md-6">
-<div class="single-product">
-<img class="img-fluid" src="img/product/p5.jpg" alt>
-<div class="product-details">
-<h6>addidas New Hammer sole
-for Sports person</h6>
-<div class="price">
-<h6>$150.00</h6>
-<h6 class="l-through">$210.00</h6>
-</div>
-<div class="prd-bottom">
-<a href class="social-info">
-<span class="ti-bag"></span>
-<p class="hover-text">add to bag</p>
-</a>
-<a href class="social-info">
-<span class="lnr lnr-move"></span>
-<p class="hover-text">view more</p>
-</a>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-lg-4 col-md-6">
-<div class="single-product">
-<img class="img-fluid" src="img/product/p6.jpg" alt>
-<div class="product-details">
-<h6>addidas New Hammer sole
-for Sports person</h6>
-<div class="price">
-<h6>$150.00</h6>
-<h6 class="l-through">$210.00</h6>
-</div>
-<div class="prd-bottom">
-<a href class="social-info">
-<span class="ti-bag"></span>
-<p class="hover-text">add to bag</p>
-</a>
-<a href class="social-info">
-<span class="lnr lnr-move"></span>
-<p class="hover-text">view more</p>
-</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</div>
-</div>
-</div>
-
-
-<section class="category-area">
+<section class="category-area mt-5">
 <div class="container">
 <div class="row justify-content-center">
 <div class="col-lg-8 col-md-12">
@@ -305,7 +301,7 @@ for Sports person</h6>
 <div class="single-deal">
 <div class="overlay"></div>
 <img class="img-fluid w-100" src="img/category/c1.jpg" alt>
-<a href="img/category/c1.jpg" class="img-pop-up" target="_blank">
+<a href="#" class="img-pop-up" >
 <div class="deal-details">
 <h6 class="deal-title">Sneaker for Sports</h6>
 </div>
@@ -316,7 +312,7 @@ for Sports person</h6>
 <div class="single-deal">
 <div class="overlay"></div>
 <img class="img-fluid w-100" src="img/category/c2.jpg" alt>
-<a href="img/category/c2.jpg" class="img-pop-up" target="_blank">
+<a href="#" class="img-pop-up" >
 <div class="deal-details">
 <h6 class="deal-title">Sneaker for Sports</h6>
 </div>
@@ -327,7 +323,7 @@ for Sports person</h6>
 <div class="single-deal">
 <div class="overlay"></div>
 <img class="img-fluid w-100" src="img/category/c3.jpg" alt>
-<a href="img/category/c3.jpg" class="img-pop-up" target="_blank">
+<a href="#" class="img-pop-up" >
 <div class="deal-details">
 <h6 class="deal-title">Product for Couple</h6>
 </div>
@@ -338,7 +334,7 @@ for Sports person</h6>
 <div class="single-deal">
 <div class="overlay"></div>
 <img class="img-fluid w-100" src="img/category/c4.jpg" alt>
-<a href="img/category/c4.jpg" class="img-pop-up" target="_blank">
+<a href="#" class="img-pop-up" >
 <div class="deal-details">
 <h6 class="deal-title">Sneaker for Sports</h6>
 </div>
@@ -351,7 +347,7 @@ for Sports person</h6>
 <div class="single-deal">
 <div class="overlay"></div>
 <img class="img-fluid w-100" src="img/category/c5.jpg" alt>
-<a href="img/category/c5.jpg" class="img-pop-up" target="_blank">
+<a href="#" class="img-pop-up" >
 <div class="deal-details">
 <h6 class="deal-title">Sneaker for Sports</h6>
 </div>
@@ -384,10 +380,6 @@ for Sports person</h6>
 </div>
 </div>
 </section>
-
-
-
-
 
 
 <?php include('footer.php') ?>

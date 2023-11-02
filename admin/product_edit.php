@@ -87,11 +87,13 @@ if ($_POST) {
  
 
 
-$stmt = $pdo->prepare("SELECT * FROM products WHERE id=".$_GET['id']);
+if(!empty($_GET['id'])){
+  $stmt = $pdo->prepare("SELECT * FROM products WHERE id=".$_GET['id']);
 
 $stmt->execute();
 
 $result = $stmt->fetchAll();
+}
 
 ?>
 

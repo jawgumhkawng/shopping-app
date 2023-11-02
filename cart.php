@@ -1,4 +1,5 @@
 <?php include('header.php') ?>
+<?php require 'config/config.php';  ?>
 
 
 <section class="banner-area organic-breadcrumb">
@@ -18,153 +19,100 @@
 
 <section class="cart_area">
 <div class="container">
-<div class="cart_inner">
+<div class="col-lg-10 cart_inner">
 <div class="table-responsive">
-<table class="table">
+<?php if(!empty($_SESSION['cart'])) : ?>
+    <table class="table">
 <thead>
 <tr>
 <th scope="col">Product</th>
+<th scope="col"></th>
 <th scope="col">Price</th>
+<th scope="col"></th>
 <th scope="col">Quantity</th>
+
 <th scope="col">Total</th>
+<th scope="col">Action</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-<div class="media">
-<div class="d-flex">
-<img src="img/cart.jpg" alt>
-</div>
-<div class="media-body">
-<p>Minimalistic shop for multipurpose use</p>
-</div>
-</div>
-</td>
-<td>
-<h5>$360.00</h5>
-</td>
-<td>
-<div class="product_count">
-<input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;" class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;" class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-</div>
-</td>
-<td>
-<h5>$720.00</h5>
-</td>
+ 
+     
+
+
+
+
+<?php
+    
+    $total = 0;
+    foreach ($_SESSION['cart'] as $key => $qty) : 
+    $id =str_replace('id','',$key);
+
+
+    $stmt = $pdo->prepare("SELECT * FROM products WHERE id =".$id);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $total += $result['price'] * $qty;
+    ?> 
+    <tr>
+
+    <td>
+    <div class="media">
+    <div class="d-flex">
+    <img src="./admin/images/<?= $result['image'] ?>" alt width="60px" height="65px">
+    </div>
+    
+    <div class="media-body">
+    <p style="color:black" class="text-uppercase"><?= $result['name'] ?></p>
+    </div>
+    </div>
+    </td>
+    <td></td>
+    <td>
+    <h5 title="Price" style="cursor:pointer">$<?= $result['price'] ?></h5>
+    </td>
+    <td></td>
+    <td>
+    <div class="product_count">
+    <input type="text" name="qty" style="border:0px; font-size:medium; font-weight:500; cursor:pointer" id="sst" maxlength="12" value="<?= $qty ?>" title="Quantity" class="input-text qty">
+    </div>
+    </td>
+    
+    <td>
+    <h5 title="Total" style="cursor:pointer">$<?= $result['price'] * $qty ?></h5>
+    </td>
+    
+    <td>
+        <a href="cart_item_clear.php?pid=<?= $result['id'] ?>"  class="primary-btn " style="line-height:31px; padding-left:10px; padding-right:10px;  border-radius:4px; ">Clear</a>
+    </td>
+    
 </tr>
-<tr>
-<td>
-<div class="media">
-<div class="d-flex">
-<img src="img/cart.jpg" alt>
-</div>
-<div class="media-body">
-<p>Minimalistic shop for multipurpose use</p>
-</div>
-</div>
-</td>
-<td>
-<h5>$360.00</h5>
-</td>
-<td>
-<div class="product_count">
-<input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;" class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;" class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-</div>
-</td>
-<td>
-<h5>$720.00</h5>
-</td>
+<?php endforeach ?>
+    <tr>
+    <td>
+    </td>
+    <td>
+    </td>
+    <td>
+    </td>
+    <td>
+    </td>
+    
+    <td>
+    </td>
+    <td>
+    <h3 style="color:black">SUBTOTAL -</h3>
+    </td>
+    <td>
+    <h3 title="Total Price" style="cursor:pointer;color:red">$<?= $total ?></h3>
+    </td>
 </tr>
-<tr>
-<td>
-<div class="media">
-<div class="d-flex">
-<img src="img/cart.jpg" alt>
-</div>
-<div class="media-body">
-<p>Minimalistic shop for multipurpose use</p>
-</div>
-</div>
-</td>
-<td>
-<h5>$360.00</h5>
-</td>
-<td>
-<div class="product_count">
-<input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;" class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;" class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-</div>
-</td>
-<td>
-<h5>$720.00</h5>
-</td>
-</tr>
-<tr class="bottom_button">
-<td>
-<a class="gray_btn" href="#">Update Cart</a>
-</td>
-<td>
-</td>
-<td>
-</td>
-<td>
-<div class="cupon_text d-flex align-items-center">
-<input type="text" placeholder="Coupon Code">
-<a class="primary-btn" href="#">Apply</a>
-<a class="gray_btn" href="#">Close Coupon</a>
-</div>
-</td>
-</tr>
-<tr>
-<td>
-</td>
-<td>
-</td>
-<td>
-<h5>Subtotal</h5>
-</td>
-<td>
-<h5>$2160.00</h5>
-</td>
-</tr>
-<tr class="shipping_area">
-<td>
-</td>
-<td>
-</td>
-<td>
-<h5>Shipping</h5>
-</td>
-<td>
-<div class="shipping_box">
-<ul class="list">
-<li><a href="#">Flat Rate: $5.00</a></li>
-<li><a href="#">Free Shipping</a></li>
-<li><a href="#">Flat Rate: $10.00</a></li>
-<li class="active"><a href="#">Local Delivery: $2.00</a></li>
-</ul>
-<h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
-<select class="shipping_select">
-<option value="1">Bangladesh</option>
-<option value="2">India</option>
-<option value="4">Pakistan</option>
-</select>
-<select class="shipping_select">
-<option value="1">Select a State</option>
-<option value="2">Select a State</option>
-<option value="4">Select a State</option>
-</select>
-<input type="text" placeholder="Postcode/Zipcode">
-<a class="gray_btn" href="#">Update Details</a>
-</div>
-</td>
-</tr>
+
+
+  
+    
+
 <tr class="out_button_area">
 <td>
 </td>
@@ -173,14 +121,26 @@
 <td>
 </td>
 <td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
 <div class="checkout_btn_inner d-flex align-items-center">
-<a class="gray_btn" href="#">Continue Shopping</a>
-<a class="primary-btn" href="#">Proceed to checkout</a>
+<a class="gray_btn" href="clearAll.php">Clear All</a>
+<a class="primary-btn" href="index.php">Continue Shopping</a>
+<a class="gray_btn" href="sale_order.php">Order Submit</a>
 </div>
 </td>
 </tr>
 </tbody>
 </table>
+<?php else :?>
+    <h2 style="text-align: center; color:blue">No Order Yet!!</h2><a href="index.php">Continue Shopping >></a>
+    
+<?php endif ?>
+
 </div>
 </div>
 </div>

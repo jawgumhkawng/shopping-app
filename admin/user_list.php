@@ -53,7 +53,7 @@ if ($_SESSION['role'] != 1) {
                     $stmt->execute();
                     $result = $stmt->fetchAll();
                 } else {
-                    $searchKey = $_POST['search'] ? $_POST['search'] : $_COOKIE['search'] ;
+                    $searchKey = !empty($_POST['search']) ? $_POST['search'] : $_COOKIE['search'] ;
 
                     $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
                    
@@ -85,7 +85,7 @@ if ($_SESSION['role'] != 1) {
                     <div class="content-header">
                       <div class="container-fluid">
                         <div class="row mb-2">
-                            <div class="col-sm-12 mt-3 mb-3">
+                          <div class="col-sm-12 mt-3 mb-3">
                                 <h1 class="mb-3 text-bold d-flex justify-content-center align-items-center btn btn-info " >Edit User &nbsp;<i class="fa-solid fas fa-user"></i></h1>
                             </div>
                             <h3 class="text-primary ml-2">User Lists</h3>
@@ -159,16 +159,22 @@ if ($_SESSION['role'] != 1) {
                                     <?php endif ?>
                                 </tbody>
                                 </table>
-              </div>
+                     </div>
                   </div> 
               </div>
           </div>
         </div><!-- /.row -->
-   
+        <?php if(!$result) :?>
+
+<h2 class="text-uppercase" style="color: red; margin-left:310px" >Results Not Found:(</h2>
+
+<?php endif ?>
       
     <!-- /.content-header -->
     </div><!-- /.container-fluid -->
     </div>
+
+  
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">

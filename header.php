@@ -1,3 +1,9 @@
+
+<?php 
+ session_start();
+  require 'config/common.php';
+
+?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
@@ -68,10 +74,20 @@
 </li>
 <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
 </ul>
+
+<?php
+
+$count = 0;
+if(isset($_SESSION['cart'])){
+  foreach( $_SESSION['cart'] as $key => $qty ) {
+   $count += $qty;
+  }
+}
+?>
 <ul class="nav navbar-nav navbar-right">
-<li class="nav-item"><a href="cart.php" class="cart"><span class="ti-bag"></span></a></li>
+<li class="nav-item"><a href="cart.php" class="cart"><span style="color: white;background-color:red; margin-top:10px; border: 2px solid red; border-radius:80px; padding:2px"><?= $count ?></span><span class="ti-bag" style="font-size: large;"></span></a></li>
 <li class="nav-item">
-<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+<button class="search"><span style="font-size: large; font-weight:700" class="lnr lnr-magnifier" id="search"></span></button>
 </li>
 </ul>
 </div>
@@ -80,8 +96,9 @@
 </div>
 <div class="search_input" id="search_input_box">
 <div class="container">
-<form class="d-flex justify-content-between">
-<input type="text" class="form-control" id="search_input" placeholder="Search Here">
+<form class="d-flex justify-content-between" action="index.php" method="post">
+<input name="_token" type="hidden" value="<?= $_SESSION['_token'] ?>">
+<input type="text" class="form-control" id="search_input" name="search" placeholder="Search Here">
 <button type="submit" class="btn"></button>
 <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
 </form>

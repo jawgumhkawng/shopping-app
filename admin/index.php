@@ -13,6 +13,15 @@ if ($_SESSION['role'] != 1) {
   header('Location: login.php');
 }
  
+
+if (!empty($_POST["search"])) {
+  setcookie("search",$_POST["search"], time() + (89400 * 30), "/");
+} else {
+if (empty($_GET['pageno'])) {
+ unset($_COOKIE["search"]);
+ setcookie("search", null, -1, "/");
+}
+}
 ?>
 
 <!-- header -->
@@ -28,7 +37,7 @@ if(!empty($_GET['pageno'])) {
 $numOfrecs = 5 ;
 $offset = ($pageno - 1) * $numOfrecs;
   
-if (empty($_POST['search'])){
+if (empty($_POST['search']) && empty($_COOKIE['search'])){
 $stmt = $pdo->prepare("SELECT * FROM products ORDER BY id DESC");
 $stmt->execute();
 $rawResult = $stmt->fetchAll();            
@@ -41,7 +50,7 @@ $result = $stmt->fetchAll();
 
 }else {
 
-$searchKey = $_POST['search'];
+$searchKey = !empty($_POST['search']) ? $_POST['search'] : $_COOKIE['search'];
 
 $stmt = $pdo->prepare("SELECT * FROM products WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
 
@@ -154,7 +163,12 @@ $result = $stmt->fetchAll();
               </div>
           
             </div> 
-                
+            <?php if(!$result) :?>
+
+  
+            <h2 class="text-uppercase" style="color: red; margin-left:310px" >Results Not Found:(</h2>
+              
+            <?php endif ?>
             </div>
           </div>
           

@@ -46,7 +46,7 @@ $adResult = $stmt->fetchAll();
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-     <?php if($page != 'order_list.php') : ?>
+     <?php if($page == 'index.php' || $page == 'category.php' || $page == 'user_list.php' ) : ?>
       <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
           <i class="fas fa-search"></i>

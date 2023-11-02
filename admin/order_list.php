@@ -116,7 +116,7 @@ $result = $stmt->fetchAll();
                             <td class="text-center"><?= escape($value['total_price']) ?></td>
                             <td class="text-center"><?= escape(date('Y-m-d',strtotime($value['order_date']))) ?></td>
                             <td class="text-center">
-                              <a href="order_detail.php?id=<?= $value['id'] ?>" type="button" class="btn btn-primary">Order Detail   <i class="fa-solid fa-eye"></i></a>
+                              <a href="order_detail.php?id=<?= $value['id'] ?>" type="button" class="btn btn-warning ">Order Detail   <i class="fa-solid fa-eye"></i></a>
                             </td>
                           </tr>  
 

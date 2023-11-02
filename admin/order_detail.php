@@ -15,23 +15,7 @@ if ($_SESSION['role'] != 1) {
  
 
 
-if(!empty($_GET['pageno'])) {
-  $pageno = $_GET['pageno'];
-} else {
-  $pageno = 1;
-}
-$numOfrecs = 5 ;
-$offset = ($pageno - 1) * $numOfrecs;
-  
-
-
 $stmt = $pdo->prepare("SELECT * FROM sale_order_detail WHERE sale_order_id=".$_GET['id']);
-$stmt->execute();
-$rawResult = $stmt->fetchAll();            
-       
-$total_pages = ceil(count($rawResult) / $numOfrecs);
-
-$stmt = $pdo->prepare("SELECT * FROM sale_order_detail WHERE sale_order_id=".$_GET['id']." LIMIT $offset,$numOfrecs");
 $stmt->execute();
 $result = $stmt->fetchAll();
 
@@ -61,7 +45,7 @@ $result = $stmt->fetchAll();
           <div class="col-md-12 col-lg-12 col-12 ">
             <div class="card">
               <div class="card-header">
-              <div class="mr-4 mt-0" >
+              <!-- <div class="mr-4 mt-0" >
               <nav aria-label="Page navigation example " style="float:right">
                 <ul class="pagination">
                   <li class="page-item  <?php if($pageno == 1){ echo 'disabled';} ?>"><a class="page-link" href="?pageno=1" aria-label="Previous">First </a></li>
@@ -79,7 +63,7 @@ $result = $stmt->fetchAll();
                   <li class="page-item  <?php if($pageno == $total_pages){ echo 'disabled';} ?>"><a class="page-link" href="?pageno=<?= $total_pages ?>" aria-label="Next">Last</a></li>
                 </ul>
               </nav>
-              </div>
+              </div> -->
         
               
               <!-- /.card-header -->
@@ -90,9 +74,12 @@ $result = $stmt->fetchAll();
                     <tr>
 
                       <th class="text-center" style="width: 5%">#</th>
-                      <th class="text-center" style="width: 30%">Product</th>
-                      <th class="text-center" style="width: 30%">Quantity</th>
-                      <th class="text-center" style="width: 35%">Order Date</th>
+                      <th class="text-center" style="width: 20%">name</th>
+                      <th class="text-center" style="width: 10%">pro_img</th>
+                      <th class="text-center" style="width: 15%">Pro_name</th>
+                      <th class="text-center" style="width: 10%">Quantity</th>
+                      <th class="text-center" style="width: 10%">Amounts</th>
+                      <th class="text-center" style="width: 30%">Order Date</th>
                       
                     </tr>
                   </thead>
@@ -101,17 +88,31 @@ $result = $stmt->fetchAll();
                       <?php $i = 1; ?>
                       <?php foreach ($result as  $value) : ?>
 
-                        <?php
-                            $stmtPro = $pdo->prepare("SELECT * FROM products WHERE id = ".$value['product_id']);
+                           <?php
+
+                            $stmtPro = $pdo->prepare("SELECT * FROM products WHERE id=".$value['product_id']);
                             $stmtPro->execute();
                             $resultPro = $stmtPro->fetchAll();
+
+                            $stmtU = $pdo->prepare("SELECT * FROM sale_order WHERE id=".$_GET['id']);
+                            $stmtU->execute();
+                            $resultS = $stmtU->fetchAll();
+
+                            $UserRe = $resultS[0]['user_id'];
+
+                            $stmtU = $pdo->prepare("SELECT * FROM users WHERE id = $UserRe");
+                            $stmtU->execute();
+                            $resultU = $stmtU->fetchAll();
                           
                             ?>
                           <tr>
 
                             <td class="text-center"><?= $i; ?></td>
-                            <td class="text-center"><?= escape(($resultPro[0]['name'])) ?></td>
+                            <td class="text-center"><?= escape($resultU[0]['name']) ?></td>
+                            <td class="text-center"><img src="./images/<?= escape($resultPro[0]['image']) ?>" width="30"  height="30" style="border:10px !important;" class="rounded-1 "></td>
+                            <td class="text-center"><?= escape($resultPro[0]['name']) ?></td>
                             <td class="text-center"><?= escape($value['quantity']) ?></td>
+                            <td class="text-center"><?= escape($resultS[0]['total_price']) ?></td>
                             <td class="text-center"><?= escape(date('Y-m-d',strtotime($value['order_date']))) ?></td>
                             
                           </tr>  
