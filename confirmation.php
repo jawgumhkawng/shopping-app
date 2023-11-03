@@ -1,5 +1,6 @@
 <?php include('header.php') ?>
 
+<?php require 'config/config.php'; ?>
 
 <section class="banner-area organic-breadcrumb">
 <div class="container">
@@ -15,12 +16,12 @@
 </div>
 </section>
 
-
 <section class="order_details section_gap">
 <div class="container">
-<h3 class="title_confirmation">Thank you. Your order has been received.</h3>
+<h3 class="title_confirmation text-uppercase ">Thank you. Your order has been received...</h3>
+<a  href="order_finish.php" class="primary-btn col-lg-12 text-center">continue..</a>
 <div class="row order_d_inner">
-<div class="col-lg-4">
+<div class="col-lg-6">
 <div class="details_item">
 <h4>Order Info</h4>
 <ul class="list">
@@ -31,7 +32,7 @@
 </ul>
 </div>
 </div>
-<div class="col-lg-4">
+<div class="col-lg-6">
 <div class="details_item">
 <h4>Billing Address</h4>
 <ul class="list">
@@ -42,7 +43,7 @@
 </ul>
 </div>
 </div>
-<div class="col-lg-4">
+<!-- <div class="col-lg-4">
 <div class="details_item">
 <h4>Shipping Address</h4>
 <ul class="list">
@@ -52,7 +53,7 @@
 <li><a href="#"><span>Postcode </span> : 36952</a></li>
 </ul>
 </div>
-</div>
+</div> -->
 </div>
 <div class="order_details_table">
 <h2>Order Details</h2>
@@ -60,45 +61,44 @@
 <table class="table">
 <thead>
 <tr>
-<th scope="col">Product</th>
-<th scope="col">Quantity</th>
-<th scope="col">Total</th>
+<th scope="col" style="color: black;">Product</th>
+<th scope="col" style="color: black;">Quantity</th>
+<th scope="col" style="color: black;">Total</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+
+<?php 
+
+$id = $_SESSION['user_id'];
+
+$total = 0;
+   foreach ($_SESSION['cart'] as $key => $qty) : 
+   $id =str_replace('id','',$key);
+
+
+   $stmt = $pdo->prepare("SELECT * FROM products WHERE id =".$id);
+   $stmt->execute();
+   $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+   $total += $result['price'] * $qty;
+
+   $ship = 50;
+
+?>
 <td>
-<p>Pixelstore fresh Blackberry</p>
+<p class="text-uppercase"><?= $result['name'] ?></p>
 </td>
 <td>
-<h5>x 02</h5>
+<h5>x <?= $qty ?></h5>
 </td>
 <td>
-<p>$720.00</p>
-</td>
-</tr>
-<tr>
-<td>
-<p>Pixelstore fresh Blackberry</p>
-</td>
-<td>
-<h5>x 02</h5>
-</td>
-<td>
-<p>$720.00</p>
-</td>
-</tr>
-<tr>
-<td>
-<p>Pixelstore fresh Blackberry</p>
-</td>
-<td>
-<h5>x 02</h5>
-</td>
-<td>
-<p>$720.00</p>
+<p>$<?= $result['price'] ?></p>
 </td>
 </tr>
+
+<?php endforeach ?>
 <tr>
 <td>
 <h4>Subtotal</h4>
@@ -107,7 +107,7 @@
 <h5></h5>
 </td>
 <td>
-<p>$2160.00</p>
+<p>$<?= $total ?></p>
 </td>
 </tr>
 <tr>
@@ -118,7 +118,7 @@
 <h5></h5>
 </td>
 <td>
-<p>Flat rate: $50.00</p>
+<p>Flat rate: $<?= $ship ?></p>
 </td>
 </tr>
 <tr>
@@ -129,7 +129,7 @@
 <h5></h5>
 </td>
 <td>
-<p>$2210.00</p>
+<p>$<?= $total + $ship ?></p>
 </td>
 </tr>
 </tbody>

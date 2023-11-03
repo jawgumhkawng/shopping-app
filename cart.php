@@ -129,16 +129,16 @@
 <td>
 <div class="checkout_btn_inner d-flex align-items-center">
 <a class="gray_btn" href="clearAll.php">Clear All</a>
-<a class="primary-btn" href="index.php">Continue Shopping</a>
-<a class="gray_btn" href="sale_order.php">Order Submit</a>
+<a class="primary-btn" href="checkout.php">Order Submit</a>
+<a class="gray_btn" href="index.php">Continue Shopping</a>
+
 </div>
 </td>
 </tr>
 </tbody>
 </table>
 <?php else :?>
-    <h2 style="text-align: center; color:blue">No Order Yet!!</h2><a href="index.php">Continue Shopping >></a>
-    
+    <h3 style="text-align: center; "><span style="color:red">No Order Yet!!...</span><a class="h5 " style="color: blue;"   href="index.php">Click To Shopping >></a></h3>
 <?php endif ?>
 
 </div>

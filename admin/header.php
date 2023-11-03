@@ -164,6 +164,8 @@ $adResult = $stmt->fetchAll();
             </ul>
           </li>
         </ul>
+          </li>
+        </ul>
       </nav>
       <!-- /.sidebar-menu -->
     </div>

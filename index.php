@@ -196,7 +196,7 @@ dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 <?php foreach ($result as $key => $value) :?>
 <div  class="col-lg-4 col-md-6">
 <div class="single-product">
-<a href="single-product.php?id=<?= $value['id'] ?>">
+<a href="single_product.php?id=<?= $value['id'] ?>">
 <img class="img-fluid " src="./admin/images/<?= escape($value['image']) ?>" alt style=" height : 210px !important">
 
 <div class="product-details">
@@ -218,7 +218,7 @@ dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
   </div>
 
 
-<a href="single-product.php?id=<?= $value['id'] ?>" class="social-info">
+<a href="single_product.php?id=<?= $value['id'] ?>" class="social-info">
 <span class="lnr lnr-move"></span>
 <p class="hover-text" style="left: 33px;">view more</p>
 </a>

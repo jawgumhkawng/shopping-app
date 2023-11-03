@@ -26,56 +26,139 @@
 
 <div class="billing_details">
 <div class="row">
-<div class="col-lg-8">
+<div class="col-lg-12">
 <h3>Billing Details</h3>
 
 </div>
-<div class="col-lg-12">
+<div class="col-lg-12 mb-5" style="margin-bottom: 50px;">
 <div class="order_box">
 <h2>Your Order</h2>
+
+
+
+<table class="table">
+<thead>
+<tr>
+<th scope="col" style="color: black;">Product</th>
+<th scope="col" style="color: black;">Quantity</th>
+<th scope="col" class="text-center" style="color: black;">Price</th>
+<th scope="col" class="text-right" style="color: black;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
 <?php 
- $id = $_SESSION['user_id'];
 
- $stmt = $pdo->prepare("SELECT * FROM products WHERE id=$id");
- $stmt->execute();
- $result = $stmt->fetch(PDO::FETCH_ASSOC);
+$id = $_SESSION['user_id'];
 
- $total += $result['price'] * $qty;
- 
+$total = 0;
+   foreach ($_SESSION['cart'] as $key => $qty) : 
+   $id =str_replace('id','',$key);
+
+
+   $stmt = $pdo->prepare("SELECT * FROM products WHERE id =".$id);
+   $stmt->execute();
+   $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+   $total += $result['price'] * $qty;
+
+   $ship = 50;
+
 ?>
+<td>
+<p class="text-uppercase"><?= $result['name'] ?></p>
+</td>
+<td>
+<h5>x <?= $qty ?></h5>
+</td>
+<td>
+<p class="text-center">$<?= $result['price'] ?></p>
+</td>
+<td class="text-right">
+<p >$<?= $result['price'] * $qty ?></p>
+</td>
+</tr>
 
-<ul class="list">
-<li><a href="#">Product <span>Total</span></a></li>
-<li><a href="#"><?= $result['name'] ?> <span class="middle">x <?= $result['price'] * $qty ?></span> <span class="last">$720.00</span></a></li>
-
-</ul>
-<ul class="list list_2">
-<li><a href="#">Subtotal <span>$2160.00</span></a></li>
-<li><a href="#">Shipping <span>Flat rate: $50.00</span></a></li>
-<li><a href="#">Total <span>$2210.00</span></a></li>
-</ul>
-<div class="payment_item">
-<div class="radion_btn">
-
-</div>
-<div class="payment_item active">
-<div class="radion_btn">
-
-</div>
+<?php endforeach ?>
 <br>
-<div class="creat_account">
-<input type="checkbox" id="f-option4" name="selector">
-<label for="f-option4">I’ve read and accept the </label>
-<a href="#">terms & conditions*</a>
+<tr>
+<td>
+<h4 >Subtotal</h4>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+<p class="text-right h5" style="color:red">$<?= $total ?></p>
+</td>
+</tr>
+
+<tr>
+<td>
+<h4>Shipping</h4>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+<p class="text-right h5" style="color:red">Flat rate: $<?= $ship ?></p>
+</td>
+</tr>
+<tr>
+<td>
+<h2 >Total</h2>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+<p class="text-right h4"style="color:blue; ">$<?= $total + $ship ?></p>
+</td>
+</tr>
+</tbody>
+</table>
 </div>
+</div>
+
+<div class="col-lg-12">
+    <h3>Fill Address</h3>
+<form class="row contact_form" action="https://preview.colorlib.com/theme/karma/contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+<div class="col-md-12">
+<div class="form-group">
+<input type="text" class="form-control" id="street" street="street" placeholder="Enter your street" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'">
+</div>
+<div class="form-group">
+<input type="email" class="form-control" id="city" name="city" placeholder="Enter city address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
+</div>
+<div class="form-group">
+<input type="text" class="form-control" id="country" name="country" placeholder="Enter country" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'">
+</div>
+<div class="form-group">
+<input type="text" class="form-control" id="postcode" name="postcode" placeholder="Enter postcode" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'">
+</div>
+</div>
+
+
+</form>
+</div>
+
+<div class="payment_item d-flex flex-right col-lg-12">
+
+<div class="payment_item active" >
+
 <br>
-<a class="primary-btn" href="#">Proceed </a>
+
+<br>
+<a class="primary-btn  "style="color:black" href="cart.php">Back </a>
+<a class="primary-btn " href="confirmation.php">Proceed </a>
 </div>
 </div>
 </div>
 </div>
 </div>
 </section>
-
 
 <?php include('footer.php') ?>

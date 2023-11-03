@@ -1,6 +1,12 @@
 <?php include('header.php') ?>
 
+<?php require 'config/config.php' ; ?>
 
+<?php 
+if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
+
+    header('Location: login.php'); }
+?>
 <section class="banner-area organic-breadcrumb">
 <div class="container">
 <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
@@ -40,22 +46,67 @@
 </div>
 </div>
 </div>
+
+<?php 
+
+if ($_POST) {
+    if(empty($_POST['subject']) || empty($_POST['message']) ) {
+
+        if(empty($_POST['subject'])){
+            $subError = 'is required';
+        }
+        if(empty($_POST['message'])){
+            $msgError = 'is required';
+        }
+    } else {
+        
+        if(!empty($_SESSION['user_name'])){
+            $_SESSION['user_name'] = $_POST['name'];
+        }
+        if(!empty($_SESSION['email'])){
+            $_SESSION['email'] = $_POST['email'];
+        }
+        if(!empty($_SESSION['user_id'])){
+            $_SESSION['user_id'] = $_POST['user_id'];
+        }
+        
+        
+        $subject = $_POST['subject'];
+        $message = $_POST['message'];
+
+        $stmt = $pdo->prepare("INSERT INTO contact(user_id,name,email,subject,message) VALUES (?,?,?,?,?)");
+        $result = $stmt->execute([$_SESSION['user_id'],$_SESSION['user_name'],$_SESSION['email'],$subject,$message]);
+        if ($result) {
+            echo"<script>alert('Thanks For Your Message!');</script>";
+            
+           }
+      }
+
+            
+}
+ 
+?>
 <div class="col-lg-9">
-<form class="row contact_form" action="https://preview.colorlib.com/theme/karma/contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+<form class="row contact_form" action="contact.php" method="post" id="contactForm" novalidate="novalidate">
+<input  name="_token" type="hidden" value="<?= $_SESSION['_token'] ?>">
+<input  name="user_id" type="hidden" value="<?= $_SESSION['user_id'] ?>">
+
 <div class="col-md-6">
 <div class="form-group">
-<input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'">
+<input type="text" class="form-control text-uppercase" style="color: gray;" id="name" name="name" value="<?= escape($_SESSION['user_name']) ?>" readonly>
 </div>
 <div class="form-group">
-<input type="email" class="form-control" id="email" name="email" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
+<input type="email" class="form-control" id="email" style="color: gray;" name="email" value="<?= escape($_SESSION['email']) ?>" readonly>
 </div>
 <div class="form-group">
-<input type="text" class="form-control" id="subject" name="subject" placeholder="Enter Subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'">
+<input type="text" class="form-control" id="subject" name="subject" placeholder="Subject <?= empty($subError) ? '' :$subError ?>" onfocus="this.placeholder = ''" 
+style="<?= empty($subError) ? '' : 'border: 1px solid red'; ?>" onblur="this.placeholder = 'Enter Subject'">
 </div>
 </div>
 <div class="col-md-6">
 <div class="form-group">
-<textarea class="form-control" name="message" id="message" rows="1" placeholder="Enter Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'"></textarea>
+<textarea class="form-control" name="message" id="message" rows="1" placeholder="Message <?= empty($msgError) ? '' :$msgError ?>" onfocus="this.placeholder = ''"
+style="<?= empty($msgError) ? '' : 'border: 1px solid red'; ?>" onblur="this.placeholder = 'Enter Message'"></textarea>
 </div>
 </div>
 <div class="col-md-12 text-right">

@@ -3,6 +3,6 @@ session_start();
 
 unset($_SESSION['cart']);
 
-header('Location: cart.php');
+header('Location: index.php');
 
 ?>

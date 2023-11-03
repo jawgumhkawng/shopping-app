@@ -52,16 +52,7 @@
 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 <ul class="nav navbar-nav menu_nav ml-auto">
 <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-<li class="nav-item submenu dropdown">
-<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop</a>
-<ul class="dropdown-menu">
 
-<li class="nav-item"><a class="nav-link" href="single-product.php">Product Details</a></li>
-<li class="nav-item"><a class="nav-link" href="checkout.php">Product Checkout</a></li>
-<li class="nav-item"><a class="nav-link" href="cart.php">Shopping Cart</a></li>
-<li class="nav-item"><a class="nav-link" href="confirmation.php">Confirmation</a></li>
-</ul>
-</li>
 
 <li class="nav-item submenu dropdown ">
 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
@@ -74,7 +65,11 @@
 </li>
 <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
 </ul>
-
+<?php 
+          $link = $_SERVER['PHP_SELF'];
+          $link_array = explode('/',$link);
+          $page = end($link_array);
+ ?>
 <?php
 
 $count = 0;
@@ -86,14 +81,17 @@ if(isset($_SESSION['cart'])){
 ?>
 <ul class="nav navbar-nav navbar-right">
 <li class="nav-item"><a href="cart.php" class="cart"><span style="color: white;background-color:red; margin-top:10px; border: 2px solid red; border-radius:80px; padding:2px"><?= $count ?></span><span class="ti-bag" style="font-size: large;"></span></a></li>
-<li class="nav-item">
+<?php if($page == 'index.php')  : ?>
+  <li class="nav-item">
 <button class="search"><span style="font-size: large; font-weight:700" class="lnr lnr-magnifier" id="search"></span></button>
 </li>
+  <?php endif ?>
 </ul>
 </div>
 </div>
 </nav>
 </div>
+
 <div class="search_input" id="search_input_box">
 <div class="container">
 <form class="d-flex justify-content-between" action="index.php" method="post">
