@@ -134,10 +134,10 @@ if ($_SESSION['role'] != 1) {
 
                                         <tr>
                                             <td><?= $i; ?></td>
-                                            <td><img src="../profile_image/<?= $value['image'] ?>" width="30"  height="30" style="border:10px !important;" class="rounded-circle shadow"></td>
-                                            <td><?= escape(substr($value['name'],0,12)) ?></td>   
+                                            <td><img src="../profile_image/<?= escape($value['image']) ?>" width="30"  height="30" style="border:10px !important;" class="rounded-circle shadow"></td>
+                                            <td><?= escape(substr($value['name'],0,8)) ?>..</td>   
                                             <td><?= escape(substr($value['email'],0,18)) ?></td>   
-                                            <td><?= escape($value['address']) ?></td>   
+                                            <td><?= escape(substr($value['address'],0,15)) ?>..</td>   
                                             <td><?= escape($value['phone']) ?></td> 
                                             <?php if($value['role'] === 1) : ?>
                                                 <td class="text-bold text-success">Admin</td>
@@ -147,7 +147,7 @@ if ($_SESSION['role'] != 1) {
                                             
                                             
                                             <td class="">
-                                            <a href="user_edit.php?id=<?= $value['id'] ?>" type="button" class="btn btn-outline-warning btn-sm btn-group ml-3 "><i class="fa-solid fa-pen-to-square "></i></a>
+                                            <a href="user_edit.php?id=<?= escape($value['id']) ?>" type="button" class="btn btn-outline-warning btn-sm btn-group ml-3 "><i class="fa-solid fa-pen-to-square "></i></a>
                                             <a href="user_delete.php?id=<?= $value['id'] ?>" type="button" class="btn btn-outline-danger btn-sm btn-group" onclick="return confirm('Are you sure you want to delete this blog!')">
                                             <i class="fa-solid fa-trash"></i></a>
                                             

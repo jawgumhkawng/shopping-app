@@ -100,12 +100,13 @@ $result = $stmt->fetchAll();
                     </tr>
                   </thead>
                   <tbody>
-                    <?php if ($result) : ?>
+                    
+                      <?php if($result) : ?>
                       <?php $i = 1; ?>
-                      <?php foreach ($result as  $value) : ?>
+                      <?php foreach ($result as $value) : ?>
 
                         <?php
-                            $stmtUser = $pdo->prepare("SELECT * FROM users WHERE id = ".$value['user_id']);
+                            $stmtUser = $pdo->prepare("SELECT * FROM users WHERE id=".$value['user_id']);
                             $stmtUser->execute();
                             $resultUser = $stmtUser->fetchAll();
                           
@@ -122,13 +123,17 @@ $result = $stmt->fetchAll();
 
                         <?php $i++; ?>
                         <?php endforeach ?>
-                    <?php endif ?>
+                      <?php endif ?>
+                  
+     
                   </tbody>
+         
                 </table>
+               
               </div>
              
               </div>
-          
+              
             </div> 
                 
             </div>

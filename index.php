@@ -1,9 +1,15 @@
 <?php include('header.php') ?>
 <?php
-
 require 'config/config.php';
 
+if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
 
+  header('Location: login.php');
+  
+  }
+?>
+
+<?php
 if(!empty($_GET['pageno'])) {
   $pageno = $_GET['pageno'];
 } else {
@@ -301,7 +307,7 @@ dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 <div class="single-deal">
 <div class="overlay"></div>
 <img class="img-fluid w-100" src="img/category/c1.jpg" alt>
-<a href="#" class="img-pop-up" >
+<a href="index.php" class="img-pop-up" >
 <div class="deal-details">
 <h6 class="deal-title">Sneaker for Sports</h6>
 </div>
@@ -312,7 +318,7 @@ dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 <div class="single-deal">
 <div class="overlay"></div>
 <img class="img-fluid w-100" src="img/category/c2.jpg" alt>
-<a href="#" class="img-pop-up" >
+<a href="index.php" class="img-pop-up" >
 <div class="deal-details">
 <h6 class="deal-title">Sneaker for Sports</h6>
 </div>
@@ -323,7 +329,7 @@ dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 <div class="single-deal">
 <div class="overlay"></div>
 <img class="img-fluid w-100" src="img/category/c3.jpg" alt>
-<a href="#" class="img-pop-up" >
+<a href="index.php" class="img-pop-up" >
 <div class="deal-details">
 <h6 class="deal-title">Product for Couple</h6>
 </div>
@@ -334,7 +340,7 @@ dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 <div class="single-deal">
 <div class="overlay"></div>
 <img class="img-fluid w-100" src="img/category/c4.jpg" alt>
-<a href="#" class="img-pop-up" >
+<a href="index.php" class="img-pop-up" >
 <div class="deal-details">
 <h6 class="deal-title">Sneaker for Sports</h6>
 </div>
@@ -347,7 +353,7 @@ dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 <div class="single-deal">
 <div class="overlay"></div>
 <img class="img-fluid w-100" src="img/category/c5.jpg" alt>
-<a href="#" class="img-pop-up" >
+<a href="index.php" class="img-pop-up" >
 <div class="deal-details">
 <h6 class="deal-title">Sneaker for Sports</h6>
 </div>

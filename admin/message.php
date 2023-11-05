@@ -26,8 +26,25 @@ if(!empty($_GET['pageno'])) {
 } else {
   $pageno = 1;
 }
-$numOfrecs = 5 ;
+$numOfrecs = 2 ;
 $offset = ($pageno - 1) * $numOfrecs;
+  
+
+
+$stmt = $pdo->prepare("SELECT * FROM contact ORDER BY id DESC");
+$stmt->execute();
+$rawResult = $stmt->fetchAll();  
+
+       
+$total_pages = ceil(count($rawResult) / $numOfrecs);
+
+$stmt = $pdo->prepare("SELECT * FROM contact ORDER BY id DESC LIMIT $offset,$numOfrecs");
+$stmt->execute();
+$result = $stmt->fetchAll();   
+
+
+
+
 ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -36,7 +53,7 @@ $offset = ($pageno - 1) * $numOfrecs;
       <div class="container-fluid">
         <div class="row mb-0">
         <div class="mr-4 mt-0" >
-              <nav aria-label="Page navigation example " style="float:right !important;">
+              <nav aria-label="Page navigation example " >
                 <ul class="pagination">
                   <li class="page-item  <?php if($pageno == 1){ echo 'disabled';} ?>"><a class="page-link" href="?pageno=1" aria-label="Previous">First </a></li>
 
@@ -71,45 +88,44 @@ $offset = ($pageno - 1) * $numOfrecs;
               
               <div class="row">
                 <div class="col-lg-12">
+                  
                   <h4 class="mb-3" style="right:0 !important;">Message Section</h4>
+                  <?php if($result) : ?>
+
+                    <?php if($result) : ?>
+                    <?php foreach($result as $value) : ?>
                     <div class="post">
+                    <?php
+                            $stmtUser = $pdo->prepare("SELECT * FROM users WHERE id = ".$value['user_id']);
+                            $stmtUser->execute();
+                            $resultUser = $stmtUser->fetchAll();
+                          
+                            ?>
                       <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="dist/img/user1-128x128.jpg" alt="user image">
+                        <img class="img-circle img-bordered-sm" src="../profile_image/<?= $resultUser[0]['image'] ?>" alt="user image">
                         <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
+                          <a href="#"><?= $resultUser[0]['name'] ?></a>
                         </span>
-                        <span class="description">Shared publicly - 7:45 PM today</span>
+                        
+                        
+                        <span class="description"> "<?= $value['subject'] ?>"</span>
                       </div>
+                      
                       <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore.
-                      </p>
+                      <p><?= $value['message'] ?></p>
 
                       <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
+                        <a href="#" class="link-black text-sm"><i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;&nbsp;<?= $value['created_at'] ?></a>
                       </p>
                     </div>
+                        <?php endforeach ?>
+                  <?php endif ?>
+                  
+                 <?php else : ?>
+                    
+                    <h3 class="text-center text-danger">There is no message</h3>
 
-                    <div class="post clearfix">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="dist/img/user7-128x128.jpg" alt="User Image">
-                        <span class="username">
-                          <a href="#">Sarah Ross</a>
-                        </span>
-                        <span class="description">Sent you a message - 3 days ago</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore.
-                      </p>
-                      <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 2</a>
-                      </p>
-                    </div>
+                <?php endif ?>
 
                     <!--  -->
                 </div>

@@ -30,9 +30,9 @@ if ($_POST) {
     $id = $_POST['id'];
 
     $stmt = $pdo->prepare("UPDATE categories SET name=?,description=? WHERE id=?");
-    $result = $stmt->execute([$name,$description,$id]);
+    $Upresult = $stmt->execute([$name,$description,$id]);
 
-    if($result) {
+    if($Upresult) {
       echo "<script>alert('Category Updated');window.location.href='category.php';</script>";
     }
   } 

@@ -45,25 +45,7 @@ $result = $stmt->fetchAll();
           <div class="col-md-12 col-lg-12 col-12 ">
             <div class="card">
               <div class="card-header">
-              <!-- <div class="mr-4 mt-0" >
-              <nav aria-label="Page navigation example " style="float:right">
-                <ul class="pagination">
-                  <li class="page-item  <?php if($pageno == 1){ echo 'disabled';} ?>"><a class="page-link" href="?pageno=1" aria-label="Previous">First </a></li>
-
-                  <li class="page-item  <?php if($pageno <= 1){ echo 'disabled';} ?>">
-                      <a class="page-link" href="<?php if($pageno <= 1) { echo '#';}else{ echo "?pageno=".($pageno-1);} ?>">
-                  <span aria-hidden="true">&laquo;</span></a></li>
-
-                  <li class="page-item active"><a class="page-link" href="#"><?= $pageno; ?></a></li>
-
-                  <li class="page-item  <?php if($pageno >= $total_pages){ echo 'disabled';} ?>">
-                     <a class="page-link" href="<?php if($pageno >= $total_pages) { echo '#';}else{ echo "?pageno=".($pageno+1);} ?>"> 
-                  <span aria-hidden="true">&raquo;</span></a></li>
-
-                  <li class="page-item  <?php if($pageno == $total_pages){ echo 'disabled';} ?>"><a class="page-link" href="?pageno=<?= $total_pages ?>" aria-label="Next">Last</a></li>
-                </ul>
-              </nav>
-              </div> -->
+    
         
               
               <!-- /.card-header -->
@@ -113,7 +95,7 @@ $result = $stmt->fetchAll();
                             <td class="text-center"><?= escape($resultPro[0]['name']) ?></td>
                             <td class="text-center"><?= escape($value['quantity']) ?></td>
                             <td class="text-center"><?= escape($resultS[0]['total_price']) ?></td>
-                            <td class="text-center"><?= escape(date('Y-m-d',strtotime($value['order_date']))) ?></td>
+                            <td class="text-center"><?= escape(date('Y-m-d / h:i:s',strtotime($value['order_date']))) ?></td>
                             
                           </tr>  
 

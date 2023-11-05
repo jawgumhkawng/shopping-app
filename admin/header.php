@@ -98,7 +98,7 @@ $adResult = $stmt->fetchAll();
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-        <!-- <img src="../profile_image/<?= $adResult[0]['image'] ?>" class="img-circle elevation-2" alt="User Image"> -->
+        <img src="../profile_image/<?= $adResult[0]['image'] ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block"><?= $adResult[0]['name'] ?></a>
@@ -122,7 +122,7 @@ $adResult = $stmt->fetchAll();
               </p>
             </a>
             <ul class="nav nav-treeview mt-4">
-              <li class="nav-item list">
+              <li class="nav-item list active">
                 <a href="index.php" class="nav-link ">
                   <i class="nav-icon fas fa-th"></i>
                   <p>Products
@@ -150,6 +150,25 @@ $adResult = $stmt->fetchAll();
                 <a href="order_list.php" class="nav-link ">
                   <i class="nav-icon fas fa-table"></i>
                   <p>Orders
+                    <i class="right fas fa-angle-right"></i>
+                  </p>
+                </a>
+              </li>
+              <?php 
+              $stmt = $pdo->prepare("SELECT * FROM contact ");
+              $stmt->execute();
+              $resultC = $stmt->fetchAll();   
+              
+              $total_message = count($resultC) ;
+              ?>
+              <li class="nav-item list " >
+                <a href="message.php" class="nav-link ">
+                <i class=" nav-icon fa-solid fa-message"></i>
+                  <p>Message&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;<?= $total_message ?>
                     <i class="right fas fa-angle-right"></i>
                   </p>
                 </a>

@@ -1,5 +1,12 @@
 <?php include('header.php') ?>
-<?php require 'config/config.php'; ?>
+<?php 
+require 'config/config.php';
+if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
+
+    header('Location: login.php');
+    
+    }
+?>
 
 <section class="banner-area organic-breadcrumb" style="padding-bottom: 0px !important">
 <div class="container">

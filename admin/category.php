@@ -118,7 +118,8 @@ $result = $stmt->fetchAll();
                     </tr>
                   </thead>
                   <tbody>
-                    <?php if ($result) : ?>
+                    <?php if($result) : ?>
+                      <?php if ($result) : ?>
                       <?php $i = 1; ?>
                       <?php foreach ($result as  $value) : ?>
 
@@ -127,8 +128,8 @@ $result = $stmt->fetchAll();
                             <td class="text-center"><?= escape($value['name']) ?></td>
                             <td class="text-center"><?= escape($value['description']) ?></td>
                             <td class="text-center">
-                              <a href="cat_edit.php?id=<?= $value['id'] ?>" type="button" class="btn btn-outline-warning btn-sm btn-group"><i class="fa-solid fa-pen-to-square "></i></a>
-                              <a href="cat_delete.php?id=<?= $value['id'] ?>" type="button" class="btn btn-outline-danger btn-sm btn-group" onclick="return confirm('Are you sure you want to delete this blog!')">
+                              <a href="cat_edit.php?id=<?= escape($value['id']) ?>" type="button" class="btn btn-outline-warning btn-sm btn-group"><i class="fa-solid fa-pen-to-square "></i></a>
+                              <a href="cat_delete.php?id=<?=escape($value['id']) ?>" type="button" class="btn btn-outline-danger btn-sm btn-group" onclick="return confirm('Are you sure you want to delete this blog!')">
                               <i class="fa-solid fa-trash"></i></a>
                             </td>
                           </tr>  
@@ -136,6 +137,9 @@ $result = $stmt->fetchAll();
                         <?php $i++; ?>
                         <?php endforeach ?>
                       <?php endif ?>
+                    <?php else :?>
+                      <h3 class="text-center text danger">There is no category!</h3>
+                    <?php endif ?>
                   </tbody>
                 </table>
               </div>

@@ -119,13 +119,13 @@ $result = $stmt->fetchAll();
                             <!-- /.card-header -->
                                 <form action="product_edit.php" method="post" enctype="multipart/form-data">
                                 <input name="_token" type="hidden" value="<?= escape($_SESSION['_token']) ?>">
-                                <input type="hidden" name="id" value="<?= $result[0]['id'] ?>">
+                                <input type="hidden" name="id" value="<?= escape($result[0]['id']) ?>">
                                
                                     <div class="card-body">
 
                                     <div class="mb-5">
                                             <label for="exampleFormControlTextarea1" class="form-label">Image<p class="text-danger d-inline ml-3" ><?= empty($imageError) ? '' : '*'.$imageError ?></p><br><br>
-                                            <img src="./images/<?= $result[0]['image'] ?>" width="200"  height="170" style="over-flow:hidden; border-radius:10px" class="rounded-3"><br><br>
+                                            <img src="./images/<?= escape($result[0]['image']) ?>" width="200"  height="170" style="over-flow:hidden; border-radius:10px" class="rounded-3"><br><br>
                                             <input type="file" class="" name="image" id="exampleFormControlInput1" placeholder="" >
                                         </div>
 

@@ -3,6 +3,12 @@ session_start();
 
 require 'config/config.php';
 
+if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
+
+    header('Location: login.php');
+  
+  }
+
 
 if($_POST) {
     $Id = $_POST['id'];
@@ -13,7 +19,7 @@ if($_POST) {
     $result = $stmt->fetchAll();
 
     if ($qty > $result[0]['quantity']){
-        echo "<script>alert('Not Enought Stock!');window.location.href='single-product.php?id=$Id'</script>";
+        echo "<script>alert('Not Enought Stock!');window.location.href='single_product.php?id=$Id'</script>";
     } else {
         if(isset($_SESSION['cart']['id'.$Id])){
             $_SESSION['cart']['id'.$Id] += $qty;
@@ -21,7 +27,7 @@ if($_POST) {
             $_SESSION['cart']['id'.$Id] = $qty;
         }
     
-        header( 'location: index.php');
+        header( 'location: cart.php');
     }
 
    

@@ -1,6 +1,59 @@
 <?php include('header.php') ?>
 
-<?php require 'config/config.php'; ?>
+<?php 
+require 'config/config.php';
+
+if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
+
+   header('Location: login.php');
+   
+   }
+?>
+<?php 
+$Id = $_SESSION['user_id'];
+$total = 0;
+   foreach ($_SESSION['cart'] as $key => $qty){
+      $id =str_replace('id','',$key);
+      $stmt = $pdo->prepare("SELECT * FROM products WHERE id =".$id);
+      $stmt->execute();
+      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+      $total += $result['price'] * $qty;
+   }
+ //insert in sale_order table
+
+ $stmt = $pdo->prepare("INSERT INTO sale_order(user_id,total_price,order_date) VALUES(?,?,?)");
+ $result = $stmt->execute([$Id,$total,date('Y-m-d H:i:s')]);
+
+ if($result) {
+
+   $saleOrderId = $pdo->lastInsertId();
+
+ //insert into sale_order_detail table
+
+   foreach ($_SESSION['cart'] as $key => $qty){
+      $id =str_replace('id','',$key);
+
+   $stmt = $pdo->prepare("INSERT INTO sale_order_detail(sale_order_id,product_id,quantity,order_date) VALUES(?,?,?,?)");
+   $result = $stmt->execute([$saleOrderId,$id,$qty,date('Y-m-d H:i:s')]);
+
+   $Qstmt = $pdo->prepare("SELECT quantity FROM products WHERE id=".$id);
+   $Qstmt->execute();
+   $Qresult = $Qstmt->fetch(PDO::FETCH_ASSOC);
+
+//update quantity in products table
+
+   $updateQty = $Qresult['quantity'] - $qty;
+
+   $stmt = $pdo->prepare("UPDATE products SET quantity=? WHERE id=?");
+   $result = $stmt->execute([$updateQty,$id]);
+
+
+      
+   }
+   
+ }
+
+?>
 
 <section class="banner-area organic-breadcrumb">
 <div class="container">
@@ -49,7 +102,7 @@
 <tr>
 <?php 
 
-$id = $_SESSION['user_id'];
+
 
 $total = 0;
    foreach ($_SESSION['cart'] as $key => $qty) : 
@@ -62,7 +115,7 @@ $total = 0;
 
    $total += $result['price'] * $qty;
 
-   $ship = 50;
+   $ship = 0.00;
 
 ?>
 <td>
@@ -123,34 +176,9 @@ $total = 0;
 </div>
 </div>
 
-<div class="col-lg-12">
-    <h3>Fill Address</h3>
-<form class="row contact_form" action="https://preview.colorlib.com/theme/karma/contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-<div class="col-md-12">
-<div class="form-group">
-<input type="text" class="form-control" id="street" street="street" placeholder="Enter your street" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'">
-</div>
-<div class="form-group">
-<input type="email" class="form-control" id="city" name="city" placeholder="Enter city address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
-</div>
-<div class="form-group">
-<input type="text" class="form-control" id="country" name="country" placeholder="Enter country" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'">
-</div>
-<div class="form-group">
-<input type="text" class="form-control" id="postcode" name="postcode" placeholder="Enter postcode" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'">
-</div>
-</div>
-
-
-</form>
-</div>
 
 <div class="payment_item d-flex flex-right col-lg-12">
-
 <div class="payment_item active" >
-
-<br>
-
 <br>
 <a class="primary-btn  "style="color:black" href="cart.php">Back </a>
 <a class="primary-btn " href="confirmation.php">Proceed </a>
