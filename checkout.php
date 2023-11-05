@@ -1,6 +1,5 @@
-<?php include('header.php') ?>
-
 <?php 
+session_start();
 require 'config/config.php';
 
 if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
@@ -9,51 +8,7 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
    
    }
 ?>
-<?php 
-$Id = $_SESSION['user_id'];
-$total = 0;
-   foreach ($_SESSION['cart'] as $key => $qty){
-      $id =str_replace('id','',$key);
-      $stmt = $pdo->prepare("SELECT * FROM products WHERE id =".$id);
-      $stmt->execute();
-      $result = $stmt->fetch(PDO::FETCH_ASSOC);
-      $total += $result['price'] * $qty;
-   }
- //insert in sale_order table
-
- $stmt = $pdo->prepare("INSERT INTO sale_order(user_id,total_price,order_date) VALUES(?,?,?)");
- $result = $stmt->execute([$Id,$total,date('Y-m-d H:i:s')]);
-
- if($result) {
-
-   $saleOrderId = $pdo->lastInsertId();
-
- //insert into sale_order_detail table
-
-   foreach ($_SESSION['cart'] as $key => $qty){
-      $id =str_replace('id','',$key);
-
-   $stmt = $pdo->prepare("INSERT INTO sale_order_detail(sale_order_id,product_id,quantity,order_date) VALUES(?,?,?,?)");
-   $result = $stmt->execute([$saleOrderId,$id,$qty,date('Y-m-d H:i:s')]);
-
-   $Qstmt = $pdo->prepare("SELECT quantity FROM products WHERE id=".$id);
-   $Qstmt->execute();
-   $Qresult = $Qstmt->fetch(PDO::FETCH_ASSOC);
-
-//update quantity in products table
-
-   $updateQty = $Qresult['quantity'] - $qty;
-
-   $stmt = $pdo->prepare("UPDATE products SET quantity=? WHERE id=?");
-   $result = $stmt->execute([$updateQty,$id]);
-
-
-      
-   }
-   
- }
-
-?>
+<?php include('header.php') ?>
 
 <section class="banner-area organic-breadcrumb">
 <div class="container">
@@ -101,8 +56,6 @@ $total = 0;
 <tbody>
 <tr>
 <?php 
-
-
 
 $total = 0;
    foreach ($_SESSION['cart'] as $key => $qty) : 

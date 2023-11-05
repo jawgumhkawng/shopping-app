@@ -38,7 +38,7 @@ if ($_SESSION['role'] != 1) {
                   $pageno = 1;
                 }
           
-                $numOfrecs = 4;
+                $numOfrecs = 5;
                 $offset = ($pageno - 1) * $numOfrecs;
                 
                 if (empty($_POST['search']) && empty($_COOKIE['search'])) {

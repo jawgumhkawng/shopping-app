@@ -144,9 +144,9 @@ $result = $stmt->fetchAll();
                             <td class="text-center"><?= escape(substr($value['name'],0,11)) ?></td>
                             <td class="text-center"><?= escape(substr($value['description'],0,30)) ?>...</td>
                             <td class="text-center"> <?= escape($resultCat[0]['name'])?></td>   
-                            <?php if($value['quantity'] == 0 )  : ?>
+                            <?php if($value['quantity'] <= 0 )  : ?>
                               <td class="text-center text-danger"> unavailable </td>
-                            <?php elseif($value['quantity'] < 5 ) : ?>
+                            <?php elseif($value['quantity'] <= 5 ) : ?>
                               <td class="text-center text-danger"> <?= escape($value['quantity'])?> </td>
                             <?php else : ?>  
                               <td class="text-center "> <?= escape($value['quantity'])?></td>

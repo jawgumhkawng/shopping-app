@@ -1,5 +1,5 @@
-<?php include('header.php') ?>
 <?php
+session_start();
  require 'config/config.php'; 
  
  if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
@@ -9,7 +9,7 @@
     }
  
  ?>
-
+<?php include('header.php') ?>
 
 <section class="banner-area organic-breadcrumb">
 <div class="container">

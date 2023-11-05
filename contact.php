@@ -1,12 +1,16 @@
-<?php include('header.php') ?>
-
-<?php require 'config/config.php' ; ?>
+<?php
+session_start();
+ require 'config/config.php' ; 
+ 
+ ?>
 
 <?php 
 if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
 
     header('Location: login.php'); }
 ?>
+<?php include('header.php') ?>
+
 <section class="banner-area organic-breadcrumb">
 <div class="container">
 <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">

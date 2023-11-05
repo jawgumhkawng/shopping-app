@@ -113,6 +113,13 @@ $adResult = $stmt->fetchAll();
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+               <?php 
+                  $stmt = $pdo->prepare("SELECT * FROM products ");
+                  $stmt->execute();
+                  $resultProduct = $stmt->fetchAll();
+
+                  $total_product= count($resultProduct) ;
+              ?>
           <li class="nav-item menu-open">
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -125,31 +132,68 @@ $adResult = $stmt->fetchAll();
               <li class="nav-item list active">
                 <a href="index.php" class="nav-link ">
                   <i class="nav-icon fas fa-th"></i>
-                  <p>Products
+                  <p>Products&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <?= $total_product ?>
                     <i class="right fas fa-angle-right"></i>
                   </p>
                 </a>
               </li>
+              <?php 
+                  $stmt = $pdo->prepare("SELECT * FROM categories ");
+                  $stmt->execute();
+                  $resultCategory = $stmt->fetchAll();
+
+                  $total_category= count($resultCategory) ;
+              ?>
               <li class="nav-item list">
                 <a href="category.php" class="nav-link ">
                 <i class="nav-icon fa-solid fa-clipboard-list"></i>
-                  <p>Category
+                  <p>Category&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;<?= $total_category ?>
                     <i class="right fas fa-angle-right"></i>
                   </p>
                 </a>
               </li>
+              <?php 
+                  $stmt = $pdo->prepare("SELECT * FROM users ");
+                  $stmt->execute();
+                  $resultUsers = $stmt->fetchAll();
+
+                  $total_user = count($resultUsers) ;
+              ?>
               <li class="nav-item list " >
                 <a href="user_list.php" class="nav-link ">
                   <i class="nav-icon fas fa-user"></i>
-                  <p>Users
+                  <p>Users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $total_user ?>
                     <i class="right fas fa-angle-right"></i>
                   </p>
                 </a>
               </li>
+              <?php 
+                  $stmt = $pdo->prepare("SELECT * FROM sale_order ");
+                  $stmt->execute();
+                  $resultOrder = $stmt->fetchAll();
+
+                  $total_order = count($resultOrder) ;
+              ?>
               <li class="nav-item list " >
                 <a href="order_list.php" class="nav-link ">
                   <i class="nav-icon fas fa-table"></i>
-                  <p>Orders
+                  <p>Orders&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?= $total_order ?>
                     <i class="right fas fa-angle-right"></i>
                   </p>
                 </a>
