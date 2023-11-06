@@ -146,7 +146,7 @@ dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 </div>
   </div>
 <div class="col-xl-9 col-lg-9 col-md-9">
-<div class="filter-bar d-flex flex-wrap align-items-center">
+<div class="filter-bar d-flex flex-wrap align-items-center shadow">
 
 <?php
    $cId = $value['id'];
@@ -204,7 +204,7 @@ dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 <div  class="col-lg-4 col-md-6">
 <div class="single-product">
 <a href="single_product.php?id=<?= $value['id'] ?>">
-<img class="img-fluid " src="./admin/images/<?= escape($value['image']) ?>" alt style=" height : 210px !important">
+<img class="img-fluid " src="./admin/images/<?= escape($value['image']) ?>" alt style=" height : 210px !important; border-radius: 7px;" >
 
 <div class="product-details">
  <h3 style="color: dark;" class="d-flex text-uppercase"><?= escape($value['name']) ?></h3>

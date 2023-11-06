@@ -43,7 +43,15 @@ if ($_POST) {
       $imageError = 'Image Required!';
     }
   }else {
-    $file = 'images/'.($_FILES['image']['name']);
+   if( is_numeric($_POST['price']) != 1 ){ 
+      $priceError = 'price should be integer value!';
+    }
+   if( is_numeric($_POST['quantity']) != 1 ){ 
+      $qtyError = 'price should be integer value!';
+    }
+   
+    if($qtyError == '' && $priceError == '') {
+      $file = 'images/'.($_FILES['image']['name']);
     $imageType = pathinfo($file,PATHINFO_EXTENSION);
   
     if ($imageType != 'png' && $imageType != 'jpg' && $imageType != 'jpeg') {
@@ -66,6 +74,8 @@ if ($_POST) {
         echo"<script>alert('Product Added Successfully!');window.location.href='index.php'</script>";
       }
     }
+  }
+    
   }  
  
 }

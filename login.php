@@ -82,7 +82,7 @@ if ($_POST) {
             <div class="hover">
             <h4>New to our website?</h4>
             <p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-            <a class="primary-btn" href="registration.php">Create an Account</a>
+            <a class="primary-btn" href="registration.php" style="border-radius: 7px;">Create an Account</a>
             </div>
         </div>
 </div>
@@ -103,7 +103,7 @@ if ($_POST) {
        <br><br><br>
        
         <div class="col-md-12 form-group">
-            <button type="submit" value="submit" class="primary-btn">Log In</button>
+            <button type="submit" value="submit" class="primary-btn" style="border-radius: 7px;">Log In</button>
             
             </div>
     </form>

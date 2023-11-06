@@ -140,7 +140,7 @@ $result = $stmt->fetchAll();
                            
                           <tr>
                             <td><?= $i; ?></td>
-                            <td class="text-center"><img src="./images/<?= escape($value['image']) ?>" width="30"  height="30" style="border:10px !important;" class="rounded-circle shadow"></td>
+                            <td class="text-center"><img src="./images/<?= escape($value['image']) ?>" width="30"  height="30" style="border-radius:3px;" class=" shadow"></td>
                             <td class="text-center"><?= escape(substr($value['name'],0,11)) ?></td>
                             <td class="text-center"><?= escape(substr($value['description'],0,30)) ?>...</td>
                             <td class="text-center"> <?= escape($resultCat[0]['name'])?></td>   

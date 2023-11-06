@@ -74,9 +74,9 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
 </div>
 </div>
 </div>
-<div class="col-lg-4">
-<div class="contact_info">
-<img src="./profile_image/<?= $result['image']?>" alt="" width="200px" height="200px" style="border-radius:10px; border:2px solid grey">
+<div class="col-lg-4 ">
+<div class="contact_info ">
+<img class="" src="./profile_image/<?= $result['image']?>" alt="" width="200px" height="200px" style="border-radius:10px; border:2px solid grey">
 </div>
 </div>
 </div>

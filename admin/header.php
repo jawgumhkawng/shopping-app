@@ -20,6 +20,8 @@ $adResult = $stmt->fetchAll();
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- datatable -->
+  <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
  
 </head>
 <body class="hold-transition sidebar-mini">
@@ -217,9 +219,88 @@ $adResult = $stmt->fetchAll();
                   </p>
                 </a>
               </li>
+              <?php
 
-              <li class="nav-item list mt-5" style="margin-top: 200px !important;">
-                <a href="logout.php" class="nav-link btn btn-outline-danger">
+              $currentDate = date("Y-m-d");
+              $fromDate = date("Y-m-d",strtotime($currentDate . '+ 1 day'));
+              $toDate = date("Y-m-d",strtotime($currentDate . '- 7 day'));
+
+
+              $Ordstmt = $pdo->prepare("SELECT * FROM sale_order WHERE order_date < ? AND order_date >= ? ORDER BY id DESC");
+              $Ordstmt->execute([$fromDate,$toDate]);
+              $Result_WRP = $Ordstmt->fetchAll();  
+
+              $total_WRP = count($Result_WRP) ;      
+              ?>
+              <li class="nav-item list " >
+                <a href="weekly_report.php" class="nav-link ">
+                <i class="nav-icon fa-regular fa-flag"></i>
+                  <p>Weekly Reports&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?= $total_WRP ?>  
+                                      
+                    <i class="right fas fa-angle-right"></i>
+                  </p>
+                </a>
+              </li>
+              <?php
+
+              $currentMonth = date("Y-m-d");
+              $fromMonth = date("Y-m-d",strtotime($currentMonth . '+ 1 month'));
+              $toMonth = date("Y-m-d",strtotime($currentMonth . '- 7 month'));
+
+
+              $Ordstmt = $pdo->prepare("SELECT * FROM sale_order WHERE order_date < ? AND order_date >= ? ORDER BY id DESC");
+              $Ordstmt->execute([$fromMonth,$toMonth]);
+              $ResultMRP = $Ordstmt->fetchAll();  
+
+              $total_MRP= count($ResultMRP) ;   
+              ?>
+              <li class="nav-item list " >
+                <a href="monthly_report.php" class="nav-link ">
+                <i class="nav-icon fa-solid fa-flag"></i>
+                  <p>Monthly Reports&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;  <?= $total_MRP ?>
+                    <i class="right fas fa-angle-right"></i>
+                  </p>
+                </a>
+              </li>
+              <?php 
+              $Rostmt = $pdo->prepare("SELECT * FROM sale_order WHERE total_price >= '200000'  ORDER BY id DESC");
+              $Rostmt->execute();
+              $RoyResult = $Rostmt->fetchAll();
+
+              $total_ROY = count($RoyResult) ;  
+              ?>
+              <li class="nav-item list " >
+                <a href="royal_cus.php" class="nav-link ">
+                <i class="nav-icon fa-solid fa-crown"></i>
+                  <p>Royal Customers&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <?= $total_ROY ?>
+                    <i class="right fas fa-angle-right"></i>
+                  </p>
+                </a>
+              </li>
+              <?php 
+              $BestSIstmt = $pdo->prepare("SELECT * FROM sale_order_detail GROUP BY product_id HAVING SUM(quantity) < 10  ORDER BY id DESC");
+              $BestSIstmt->execute();
+              $BestSIResult = $BestSIstmt->fetchAll(); 
+
+              $total_BSI = count($BestSIResult) ;  
+              ?>
+              <li class="nav-item list " >
+                <a href="best_seller_items.php" class="nav-link ">
+                <i class="nav-icon fa-solid fa-star"></i>
+                  <p>Best Seller Items&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <?= $total_BSI ?>
+                    <i class="right fas fa-angle-right"></i>
+                  </p>
+                </a>
+              </li>
+
+              <li class="nav-item list mt-5" style="">
+                <a href="logout.php" class="col-12  btn btn-outline-danger">
                   <i class="nav-icon fa-solid fa-right-from-bracket"></i>
                   Logout 
                 </a>

@@ -93,7 +93,7 @@ $total = 0;
 <ul class="list">
 <li><a href="#"><span>Order number</span> : 60235</a></li>
 <li><a href="#"><span>Date</span> : <?= $resultOrd[0]['order_date'] ?></a></li>
-<li><a href="#"><span>Total</span> : <?= $resultOrd[0]['total_price'] ?></a></li>
+<li><a href="#"><span>Total</span> : $<?= $resultOrd[0]['total_price'] ?></a></li>
 <li><a href="#"><span>Payment method</span> : Check payments</a></li>
 </ul>
 <?php endif ?>
@@ -207,7 +207,7 @@ $total = 0;
 </div>
 <br><br>
 <div class="div">
-<a  href="order_finish.php" class="primary-btn col-lg-12  text-center">Confirm</a><br>
+<a  href="order_finish.php" class="primary-btn col-lg-12  text-center" style="border-radius: 7px;">Confirm</a><br>
 </div>
 </div>
 </section>

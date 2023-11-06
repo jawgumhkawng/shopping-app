@@ -114,7 +114,7 @@ $result = $stmt->fetchAll();
                           <tr>
                             <td class="text-center"><?= $i; ?></td>
                             <td class="text-center"><?= escape(($resultUser[0]['name'])) ?></td>
-                            <td class="text-center"><?= escape($value['total_price']) ?></td>
+                            <td class="text-center">$<?= escape($value['total_price']) ?></td>
                             <td class="text-center"><?= escape(date('Y-m-d',strtotime($value['order_date']))) ?></td>
                             <td class="text-center">
                               <a href="order_detail.php?id=<?= $value['id'] ?>" type="button" class="btn btn-warning ">Order Detail   <i class="fa-solid fa-eye"></i></a>

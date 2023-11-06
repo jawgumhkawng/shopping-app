@@ -114,7 +114,7 @@ style="<?= empty($msgError) ? '' : 'border: 1px solid red'; ?>" onblur="this.pla
 </div>
 </div>
 <div class="col-md-12 text-right">
-<button type="submit" value="submit" class="primary-btn">Send Message</button>
+<button type="submit" value="submit" class="primary-btn" style="border-radius: 7px;">Send Message</button>
 </div>
 </form>
 </div>

@@ -133,7 +133,7 @@ $result = $stmt->fetchAll();
                                     <div class="card-body">
                                     <div class="mb-5">
                                             <label for="exampleFormControlTextarea1" class="form-label">Image</label><br>
-                                            <img src="../profile_image/<?= $result[0]['image'] ?>" width="200"  height="170" style="over-flow:hidden; border-radius:10px" class="rounded-3"><br><br>
+                                            <img src="../profile_image/<?= $result[0]['image'] ?>" width="200"  height="200" style="over-flow:hidden; border-radius:10px; border:2px solid gray;" class="rounded-3 shadow"><br><br>
                                             <input type="file" class="" name="image" id="exampleFormControlInput1" placeholder="" >
                                         </div>
                                         <div class="mb-4">

@@ -46,7 +46,7 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
 <div class="row s_product_inner">
 <div class="col-lg-6 col-md-6">
 <div class="single-prd-item ">
-<img class="d-flex " src="./admin/images/<?= escape($result[0]['image']) ?>" width="500px" height="500px">
+<img class="d-flex " src="./admin/images/<?= escape($result[0]['image']) ?>" width="500px" height="500px" style="border-radius:8px;">
 </div>
 </div>
 <div class="col-lg-5 offset-lg-1">

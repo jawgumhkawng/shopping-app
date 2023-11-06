@@ -137,9 +137,9 @@ session_start();
 </td>
 <td>
 <div class="checkout_btn_inner d-flex align-items-center">
-<a class="gray_btn" href="clearAll.php">Clear All</a>
-<a class="primary-btn" href="checkout.php">Order Submit</a>
-<a class="gray_btn" href="index.php">Continue Shopping</a>
+<a class="gray_btn" href="clearAll.php" style="border-radius: 7px;">Clear All</a>
+<a class="primary-btn" href="checkout.php" style="border-radius: 7px;">Order Submit</a>
+<a class="gray_btn" href="index.php" style="border-radius: 7px;">Continue Shopping</a>
 
 </div>
 </td>

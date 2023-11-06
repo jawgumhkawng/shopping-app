@@ -15,7 +15,23 @@ if ($_SESSION['role'] != 1) {
  
 
 
-$stmt = $pdo->prepare("SELECT * FROM sale_order_detail WHERE sale_order_id=".$_GET['id']);
+if(!empty($_GET['pageno'])) {
+  $pageno = $_GET['pageno'];
+} else {
+  $pageno = 1;
+}
+$numOfrecs = 5 ;
+$offset = ($pageno - 1) * $numOfrecs;
+  
+
+$oID = $_GET['id'];
+$stmt = $pdo->prepare("SELECT * FROM sale_order_detail WHERE sale_order_id=$oID ORDER BY id DESC");
+$stmt->execute();
+$rawResult = $stmt->fetchAll();            
+       
+$total_pages = ceil(count($rawResult) / $numOfrecs);
+
+$stmt = $pdo->prepare("SELECT * FROM sale_order_detail WHERE sale_order_id=$oID ORDER BY id DESC LIMIT $offset,$numOfrecs ");
 $stmt->execute();
 $result = $stmt->fetchAll();
 
@@ -45,7 +61,25 @@ $result = $stmt->fetchAll();
           <div class="col-md-12 col-lg-12 col-12 ">
             <div class="card">
               <div class="card-header">
-    
+              <div class="mr-4 mt-0" >
+              <nav aria-label="Page navigation example " style="float:right">
+                <ul class="pagination">
+                  <li class="page-item  <?php if($pageno == 1){ echo 'disabled';} ?>"><a class="page-link" href="?id=<?= $_GET['id'] ?>&pageno=1" aria-label="Previous">First </a></li>
+
+                  <li class="page-item  <?php if($pageno <= 1){ echo 'disabled';} ?>">
+                      <a class="page-link" href="<?php if($pageno <= 1) { echo '#';}else{ echo "?id=".$_GET['id']."&pageno=".($pageno-1);} ?>">
+                  <span aria-hidden="true">&laquo;</span></a></li>
+
+                  <li class="page-item active"><a class="page-link" href="#"><?= $pageno; ?></a></li>
+
+                  <li class="page-item  <?php if($pageno >= $total_pages){ echo 'disabled';} ?>">
+                     <a class="page-link" href="<?php if($pageno >= $total_pages) { echo '#';}else{ echo "?id=".$_GET['id']."&pageno=".($pageno+1);} ?>"> 
+                  <span aria-hidden="true">&raquo;</span></a></li>
+
+                  <li class="page-item  <?php if($pageno == $total_pages){ echo 'disabled';} ?>"><a class="page-link" href="?id=<?= $_GET['id'] ?>&pageno=<?= $total_pages ?>" aria-label="Next">Last</a></li>
+                </ul>
+              </nav>
+              </div>
         
               
               <!-- /.card-header -->
@@ -94,7 +128,7 @@ $result = $stmt->fetchAll();
                             <td class="text-center"><img src="./images/<?= escape($resultPro[0]['image']) ?>" width="30"  height="30" style="border:10px !important;" class="rounded-1 "></td>
                             <td class="text-center"><?= escape($resultPro[0]['name']) ?></td>
                             <td class="text-center"><?= escape($value['quantity']) ?></td>
-                            <td class="text-center"><?= escape($resultS[0]['total_price']) ?></td>
+                            <td class="text-center">$<?= escape($resultPro[0]['price']) * escape($value['quantity'])?></td>
                             <td class="text-center"><?= escape(date('Y-m-d / h:i:s',strtotime($value['order_date']))) ?></td>
                             
                           </tr>  
@@ -103,7 +137,9 @@ $result = $stmt->fetchAll();
                         <?php endforeach ?>
                     <?php endif ?>
                   </tbody>
+                  
                 </table>
+                <h4 class="float-right mb-0 mt-3">total - <span class="text-danger">$<?= escape($resultS[0]['total_price']) ?></span></h4>
               </div>
              
               </div>

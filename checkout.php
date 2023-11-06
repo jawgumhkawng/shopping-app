@@ -130,11 +130,11 @@ $total = 0;
 </div>
 
 
-<div class="payment_item d-flex flex-right col-lg-12">
+<div class="payment_item  col-lg-12">
 <div class="payment_item active" >
 <br>
-<a class="primary-btn  "style="color:black" href="cart.php">Back </a>
-<a class="primary-btn " href="confirmation.php">Proceed </a>
+<a class="primary-btn  "style="color:black; border-radius:7px;" href="cart.php">Back </a>
+<a class="primary-btn " style=" border-radius:7px;" href="confirmation.php">Proceed </a>
 </div>
 </div>
 </div>

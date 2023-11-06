@@ -158,7 +158,7 @@ if ($_POST) {
        <br><br>
        
         <div class="col-md-12 form-group">
-            <button type="submit" value="submit" class="primary-btn  ">Sgin Up</button>
+            <button type="submit" value="submit" class="primary-btn  "style="border-radius: 7px;">Sgin Up</button>
         </div>
         <br>
         <br>

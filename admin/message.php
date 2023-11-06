@@ -115,7 +115,7 @@ $result = $stmt->fetchAll();
                       <p><?= $value['message'] ?></p>
 
                       <p>
-                        <a href="#" class="link-black text-sm"><i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;&nbsp;<?= $value['created_at'] ?></a>
+                        <a href="#" class="link-black text-sm"><i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;&nbsp;<?= date('Y-m-d / h:i:s',strtotime($value['created_at'])) ?></a>
                       </p>
                     </div>
                         <?php endforeach ?>
