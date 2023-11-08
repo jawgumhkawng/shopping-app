@@ -8,10 +8,22 @@ require '../config/config.php';
 require '../config/common.php';
 
 if ($_POST) {
+  if( empty($_POST['email']) ||  strlen($_POST['password']) < 8 ) {
+
+        
+    if(empty($_POST['email'])){
+        $emailError = 'is required';
+    }
+    if(empty($_POST['password'])){
+        $passwordError = 'is required';
+    }
+   
+} else {
+  
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email" );
 
     $stmt->bindValue(':email',$email);
     $stmt->execute();
@@ -26,9 +38,11 @@ if ($_POST) {
 
             header('Location: index.php');
         }
-    } 
+    } else {
+      header('Location: login.php?incorrect=1');
+    }
 
-   echo"<script>alert('Incorrect email & password!')</script>";
+}
     
 }
 
@@ -54,19 +68,21 @@ if ($_POST) {
 <body class="hold-transition login-page">
 <div class="login-box">
   <!-- /.login-logo -->
+  <?php if ( isset($_GET['incorrect']) ) : ?>
+        <div class="alert alert-danger">
+        Incorrect Email or Password
+        </div>
+        <?php endif ?>
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
       <a href="#" class="h1"><b>Blogs |</b> admin</a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
-
-      <form action="login.php" method="post" class="mb-5">
-        <?php if( $_SESSION['_token']) : ?>
-      <input name="_token" type="hidden" value="<?= $_SESSION['_token'] ?>">
-       <?php endif ?>
+      <form action="login.php" method="post" class="mb-5"> 
+      <input name="_token" type="hidden" value="<?= $_SESSION['_token'] ?>">     
         <div class="input-group mb-3">
-          <input type="email" class="form-control" name="email" placeholder="Email">
+          <input type="email" class="form-control" name="email" placeholder="Email" style="<?= empty($emailError) ? '' : 'border: 1px solid red'; ?>" >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -74,7 +90,7 @@ if ($_POST) {
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" name="password" placeholder="Password">
+          <input type="password" class="form-control" name="password" placeholder="Password" style="<?= empty($passwordError) ? '' : 'border: 1px solid red'; ?>" >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
