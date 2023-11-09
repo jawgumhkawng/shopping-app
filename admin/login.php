@@ -19,32 +19,32 @@ if ($_POST) {
     }
    
 } else {
-  
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+   
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email" );
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE role=1 AND email=:email" );
 
-    $stmt->bindValue(':email',$email);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->bindValue(':email',$email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($user) {
+            if (password_verify($password,$user['password'])) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['name'];
+                $_SESSION['role'] = 1;
+                $_SESSION['logged_in'] = time();
 
-    if ($user) {
-        if (password_verify($password,$user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['name'];
-            $_SESSION['role'] = 1;
-            $_SESSION['logged_in'] = time();
-
-            header('Location: index.php');
-        }
-    } else {
-      header('Location: login.php?incorrect=1');
-    }
-
+                header('Location: index.php');
+        
+        } 
+   } else {
+    header('Location: login.php?incorrect=1');
+  } 
+ }
 }
-    
-}
+// }
 
 ?>
 
@@ -73,6 +73,7 @@ if ($_POST) {
         Incorrect Email or Password
         </div>
         <?php endif ?>
+  
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
       <a href="#" class="h1"><b>Blogs |</b> admin</a>
