@@ -103,7 +103,7 @@ $adResult = $stmt->fetchAll();
         <img src="../profile_image/<?= $adResult[0]['image'] ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?= $adResult[0]['name'] ?></a>
+          <a href="#" class="d-block text-uppercase"><b class="text-info">Admin </b>: <?= $adResult[0]['name'] ?></a>
           
 
         </div>
