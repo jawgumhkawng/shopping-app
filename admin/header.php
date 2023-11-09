@@ -1,5 +1,10 @@
+
 <?php 
-$stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC");
+if(session_status()==PHP_SESSION_NONE){
+  session_start();
+}
+
+$stmt = $pdo->prepare("SELECT * FROM users WHERE id=". $_SESSION['user_id']);
 $stmt->execute();
 $adResult = $stmt->fetchAll();   
 ?>
