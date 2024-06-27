@@ -82,7 +82,9 @@ if(isset($_SESSION['cart'])){
 ?>
 
 <li class="nav-item "><a href="cart.php" class="cart"><span style="color: white;background-color:red; margin-top:10px; border: 2px solid red; border-radius:80px; padding:2px"><?= $count ?></span><span class="ti-bag nav-items" style="font-size: large;"></span></a></li>
-<li class="nav-item " style="font-size: large; display:block;"><a href="profile.php" class=""><span><i class="fa-solid fa-user nav-items"></i></span></a></li>
+<?php if(!empty($_SESSION['user_id']) && !empty($_SESSION['logged_in']) ) : ?>
+  <li class="nav-item " style="font-size: large; display:block;"><a href="profile.php" class=""><span><i class="fa-solid fa-user nav-items"></i></span></a></li>
+<?php endif ?>
 <?php if($page == 'index.php')  : ?>
   <li class="nav-item">
 <button class="search"><span style="font-size: large; font-weight:700" class="lnr lnr-magnifier nav-items" id="search"></span></button>
