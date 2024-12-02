@@ -91,7 +91,7 @@ $total = 0;
 <h4>Order Info</h4>
 <?php if($resultOrd) : ?>
 <ul class="list">
-<li><a href="#"><span>Order number</span> : 60235</a></li>
+<li><a href="#"><span>Order number</span> : <?= $randomNumber = random_int(0, 100000);  ?></a></li>
 <li><a href="#"><span>Date</span> : <?= $resultOrd[0]['order_date'] ?></a></li>
 <li><a href="#"><span>Total</span> : $<?= $resultOrd[0]['total_price'] ?></a></li>
 <li><a href="#"><span>Payment method</span> : Check payments</a></li>
